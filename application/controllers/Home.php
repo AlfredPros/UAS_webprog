@@ -182,7 +182,25 @@ class Home extends CI_Controller {
         }
     }
 
+    public function delete_user($id_user) {
+        if (!isset($_SESSION['logged_in']) || $_SESSION['logged_in'] == false) {
+            $newdata = array(
+                'alertNotif'  => 'Login is required to see the page.',
+                'logged_in' => false
+            );
 
+            $this->session->set_userdata($newdata);
+
+            redirect("home");
+        }
+        // Role bukan admin
+        if ($_SESSION['role'] != 'Admin') {
+            $this->error404();
+        } else {
+            $this->home_model->delete_user($id_user);
+            redirect("home");
+        }
+    }
 
     public function error404() {
         $data['js'] = $this->load->view('include/javascript.php', NULL, TRUE);
