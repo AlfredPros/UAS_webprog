@@ -40,9 +40,9 @@
             <h2>Login</h2>
         </div>
         <?php if (isset($_SESSION['alert'])) { ?>
-            <p><?= $_SESSION['alert'] ?></p>
+            <p style="color:red"><?= $_SESSION['alert'] ?></p>
         <?php unset($_SESSION['alert']); } ?>
-        
+
 		<form action="<?= base_url("index.php/home/do_login") ?>" method="POST" style="margin-top:26px">
 			<div class="row">
 				<input type="email" class="form-control" id="email" name="email" placeholder="E-mail address" value="<?= set_value("email") ?>"> 

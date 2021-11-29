@@ -18,7 +18,18 @@ class Home extends CI_Controller {
             $this->load->view('pages/home.php', $data);
         }
         else {
-            $this->load->view('pages/error.php', $data);
+            if ($_SESSION['role'] == 'User') {
+                $this->load->view('pages/home_user.php', $data);
+            }
+            else if ($_SESSION['role'] == 'Manager') {
+                $this->load->view('pages/home_management.php', $data);
+            }
+            else if ($_SESSION['role'] == 'Admin') {
+                $this->load->view('pages/home_admin.php', $data);
+            }
+            else {
+                $this->load->view('pages/error.php', $data);
+            }
         }
     }
 
@@ -52,7 +63,7 @@ class Home extends CI_Controller {
                 $this->load->view('pages/login.php', $data);
             }
             else {
-                $password = $this->input->post('pasword');
+                $password = $this->input->post('password');
                 $passhash = hash('sha512', $password);
 
                 $values = array(
@@ -62,7 +73,13 @@ class Home extends CI_Controller {
 
                 $result = $this->home_model->check_user($values);
 
-                if (empty($result) == null) {
+                if (empty($result)) {
+                    $newdata = array(
+                        'alert'  => "Wrong email or password!"
+                    );
+        
+                    $this->session->set_userdata($newdata);
+
                     $data['js'] = $this->load->view('include/javascript.php', NULL, TRUE);
                     $data['css'] = $this->load->view('include/css.php', NULL, TRUE);
                     $data['header'] = $this->load->view('pages/header.php', NULL, TRUE);
@@ -70,14 +87,14 @@ class Home extends CI_Controller {
                 }
                 else {
                     $newdata = array(
-                        'name'  => $result['name'],
-                        'link_profile' => $result['link_profile'],
-                        'role' => $result['role'],
+                        'name'  => $result[0]['name'],
+                        'link_profile' => $result[0]['link_profile'],
+                        'role' => $result[0]['role'],
                         'logged_in' => true
                     );
         
                     $this->session->set_userdata($newdata);
-                    
+
                     redirect("home");
                 }
                 

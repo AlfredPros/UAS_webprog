@@ -3,8 +3,7 @@
 class Home_model extends CI_Model {
     // User
     function check_user($values) {
-        $this->db->where($values);
-        $query = $this->db->get('user');
+        $query = $this->db->query("SELECT * FROM user WHERE email = ? AND password = ?", $values);
         return $query->result_array();
     }
 
