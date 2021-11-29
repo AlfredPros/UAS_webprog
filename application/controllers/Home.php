@@ -9,13 +9,48 @@ class Home extends CI_Controller {
         $this->load->library('session');
     }
 
-    public function index() {
-        $data['list_buku'] = $this->home_model->get_list_buku();
-
+    public function index() {  // Landing page
         $data['js'] = $this->load->view('include/javascript.php', NULL, TRUE);
         $data['css'] = $this->load->view('include/css.php', NULL, TRUE);
         $data['header'] = $this->load->view('pages/header.php', NULL, TRUE);
         $this->load->view('pages/home.php', $data);
+    }
+
+    public function login() {
+        $data['js'] = $this->load->view('include/javascript.php', NULL, TRUE);
+        $data['css'] = $this->load->view('include/css.php', NULL, TRUE);
+        $data['header'] = $this->load->view('pages/header.php', NULL, TRUE);
+        $this->load->view('pages/login.php', $data);
+    }
+
+    public function do_login() {
+        $token = $_POST['token'];
+        $action = $_POST['action'];
+        
+        $score_limit = 0.9;
+
+        $recaptcha_url = "https://www.google.com/recaptcha/api/siteverify";
+        $recaptcha_secret = "6LePRGcdAAAAAMsbA1tKa-a86LahRsHMeeb-1M1t";
+
+        $recaptcha = file_get_contents($recaptcha_url . "?secret=" . $recaptcha_secret . "&response=" . $token);
+        $arrResponse = json_decode($recaptcha);
+
+        if ($arrResponse->success && $arrResponse->action == $action && $arrResponse->score >= $score_limit) {
+            echo "<h1>Hello,</h1><br><h1>Thanks for not submitting your name! :)</br>";
+        }
+        else {
+            echo "<h1>Spammer Alert!!</h1>";
+        }
+    }
+
+
+
+
+    public function error404() {
+        $data['js'] = $this->load->view('include/javascript.php', NULL, TRUE);
+        $data['css'] = $this->load->view('include/css.php', NULL, TRUE);
+        $data['header'] = $this->load->view('pages/header.php', NULL, TRUE);
+        $this->load->view('pages/error.php', $data);
     }
 
 
@@ -98,12 +133,7 @@ class Home extends CI_Controller {
         }
     }
 
-    public function error404() {
-        $data['js'] = $this->load->view('include/javascript.php', NULL, TRUE);
-        $data['css'] = $this->load->view('include/css.php', NULL, TRUE);
-        $data['header'] = $this->load->view('pages/header.php', NULL, TRUE);
-        $this->load->view('pages/error.php', $data);
-    }
+    
 
 
     // Non-GUI pages
