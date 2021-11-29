@@ -18,7 +18,7 @@
             <h3>Anime Manga Kawaii Desu</h3>
         </div>
         <div class="row" style="margin-top:26px">
-            <a href="<?= base_url('index.php/home/register') ?>" class="btn btn-primary" role="button">Lubang Pengatur Panas</a>
+            <a href="<?= base_url('index.php/home/register') ?>" class="btn btn-primary" role="button">Tingkat Nada</a>
         </div>
         <div class="row" style="margin-top:8px">
 		    <a href="<?= base_url('index.php/home/login') ?>" class="btn btn-secondary" role="button">Gabung</a>
