@@ -27,6 +27,12 @@ class Home_model extends CI_Model {
         $this->db->update('user', $value);
     }
 
+    public function get_user($id_user)
+    {
+        $query = $this->db->where('id_user', $id_user)->get('user');
+        return $query->result_array();
+    }
+
     // Book
     function get_list_book() {
         $query = $this->db->query("SELECT * FROM list_book");

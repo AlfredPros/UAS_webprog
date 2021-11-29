@@ -20,11 +20,16 @@
                         <td><?= $user['email'] ?></td>
                         <td><?= $user['role'] ?></td>
                         <td>
-                            <div class="col-auto">
+                        <div class="col-auto">
+                            <a href="<?= base_url("index.php/Home/edit_user/$id") ?>">
+                                <button class="btn btn-warning">Edit</button>
+                            </a>
+                        </div>    
+                        <div class="col-auto">
                             <a href="<?= base_url("index.php/Home/deleteuser/$id") ?>">
                                 <button class="btn btn-warning">X</button>
                             </a>
-                            </div>
+                        </div>
                         </td>
                     </tr>
                     <?php
