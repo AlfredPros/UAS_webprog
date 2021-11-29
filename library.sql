@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Nov 29, 2021 at 11:51 AM
+-- Generation Time: Nov 29, 2021 at 12:58 PM
 -- Server version: 10.4.20-MariaDB
 -- PHP Version: 7.4.22
 
@@ -57,8 +57,8 @@ CREATE TABLE `request` (
   `id_request` int(11) NOT NULL,
   `id_user` bigint(20) DEFAULT NULL,
   `id_book` bigint(20) DEFAULT NULL,
-  `start_time` int(11) NOT NULL,
-  `end_time` int(11) NOT NULL,
+  `start_time` datetime DEFAULT current_timestamp(),
+  `end_time` datetime NOT NULL,
   `status` char(1) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
