@@ -118,7 +118,7 @@ class Home_model extends CI_Model {
     }
 
     public function reject_request($value) {
-        $this->db->set('status', 'N');
+        $this->db->set('status', '0');
         $this->db->where('id_request', $value);
         $this->db->update('request');
     }
