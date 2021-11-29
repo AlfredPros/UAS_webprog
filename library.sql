@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Nov 29, 2021 at 08:13 AM
+-- Generation Time: Nov 29, 2021 at 09:06 AM
 -- Server version: 10.4.20-MariaDB
 -- PHP Version: 7.4.22
 
@@ -18,30 +18,30 @@ SET time_zone = "+00:00";
 /*!40101 SET NAMES utf8mb4 */;
 
 --
--- Database: `perpustakaan`
+-- Database: `library`
 --
 
 -- --------------------------------------------------------
 
 --
--- Table structure for table `list_buku`
+-- Table structure for table `list_book`
 --
 
-CREATE TABLE `list_buku` (
-  `id_buku` bigint(20) NOT NULL,
-  `judul_buku` varchar(255) NOT NULL,
-  `tahun_terbit` int(4) NOT NULL,
-  `penulis_buku` varchar(255) NOT NULL,
-  `penerbit_buku` varchar(255) NOT NULL,
+CREATE TABLE `list_book` (
+  `id_book` bigint(20) NOT NULL,
+  `title` varchar(255) NOT NULL,
+  `year` int(4) NOT NULL,
+  `author` varchar(255) NOT NULL,
+  `publisher` varchar(255) NOT NULL,
   `link_poster` varchar(255) NOT NULL,
-  `deskripsi_buku` mediumtext NOT NULL
+  `description` mediumtext NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
--- Dumping data for table `list_buku`
+-- Dumping data for table `list_book`
 --
 
-INSERT INTO `list_buku` (`id_buku`, `judul_buku`, `tahun_terbit`, `penulis_buku`, `penerbit_buku`, `link_poster`, `deskripsi_buku`) VALUES
+INSERT INTO `list_book` (`id_book`, `title`, `year`, `author`, `publisher`, `link_poster`, `description`) VALUES
 (2, 'Gyate Gyate', 2020, 'Zen Kyara', 'ZeroRespect', 'assets/poster/cb5231121c6a9ffef23894e92b35e1e2.png', ''),
 (5, 'Menaricc Roll', 2019, 'Alert', 'Maki Ligon', 'assets/poster/97a0c7ce4572c22f7e48ecefeab7d69a.png', ''),
 (6, 'Food and Musik', 2017, 'Elegant Sister', 'Sakuzyo', 'assets/poster/78f637e9c5e924f23d103931df8126f7.png', ''),
@@ -56,7 +56,11 @@ INSERT INTO `list_buku` (`id_buku`, `judul_buku`, `tahun_terbit`, `penulis_buku`
 CREATE TABLE `request` (
   `id_request` int(11) NOT NULL,
   `id_user` bigint(20) DEFAULT NULL,
-  `id_buku` bigint(20) DEFAULT NULL
+  `id_book` bigint(20) DEFAULT NULL,
+  `request_date` int(11) NOT NULL,
+  `start_time` int(11) NOT NULL,
+  `end_time` int(11) NOT NULL,
+  `status` char(1) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 -- --------------------------------------------------------
@@ -86,10 +90,10 @@ INSERT INTO `user` (`id_user`, `email`, `password`, `name`, `role`) VALUES
 --
 
 --
--- Indexes for table `list_buku`
+-- Indexes for table `list_book`
 --
-ALTER TABLE `list_buku`
-  ADD PRIMARY KEY (`id_buku`);
+ALTER TABLE `list_book`
+  ADD PRIMARY KEY (`id_book`);
 
 --
 -- Indexes for table `request`
@@ -97,7 +101,7 @@ ALTER TABLE `list_buku`
 ALTER TABLE `request`
   ADD PRIMARY KEY (`id_request`),
   ADD KEY `id_user` (`id_user`),
-  ADD KEY `id_buku` (`id_buku`);
+  ADD KEY `id_buku` (`id_book`);
 
 --
 -- Indexes for table `user`
@@ -110,10 +114,10 @@ ALTER TABLE `user`
 --
 
 --
--- AUTO_INCREMENT for table `list_buku`
+-- AUTO_INCREMENT for table `list_book`
 --
-ALTER TABLE `list_buku`
-  MODIFY `id_buku` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
+ALTER TABLE `list_book`
+  MODIFY `id_book` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
 
 --
 -- AUTO_INCREMENT for table `user`
@@ -130,7 +134,7 @@ ALTER TABLE `user`
 --
 ALTER TABLE `request`
   ADD CONSTRAINT `request_ibfk_1` FOREIGN KEY (`id_user`) REFERENCES `user` (`id_user`),
-  ADD CONSTRAINT `request_ibfk_2` FOREIGN KEY (`id_buku`) REFERENCES `list_buku` (`id_buku`);
+  ADD CONSTRAINT `request_ibfk_2` FOREIGN KEY (`id_book`) REFERENCES `list_book` (`id_book`);
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
