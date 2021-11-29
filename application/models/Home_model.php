@@ -72,6 +72,29 @@ class Home_model extends CI_Model {
 
     // Request
     function get_list_request() {
+        $this->db->select('id_request, name, title, start_time, end_time');
+        $this->db->join('user', 'user.id_user = request.id_user');
+        $this->db->join('list_book', 'list_book.id_book = request.id_book');
+        $query = $this->db->get('request');
+        return $query->result_array();
+    }
+
+    public function get_unapproved_request()
+    {
+        $this->db->select('id_request, name, title, start_time, end_time');
+        $this->db->join('user', 'user.id_user = request.id_user');
+        $this->db->join('list_book', 'list_book.id_book = request.id_book');
+        $this->db->where('status', '2');
+        $query = $this->db->get('request');
+        return $query->result_array();
+    }
+
+    public function get_user_request($id_user)
+    {
+        $this->db->select('id_request, name, title, start_time, end_time, status');
+        $this->db->join('user', 'user.id_user = request.id_user');
+        $this->db->join('list_book', 'list_book.id_book = request.id_book');
+        $this->db->where('user.id_user', $id_user);
         $query = $this->db->get('request');
         return $query->result_array();
     }
@@ -89,7 +112,7 @@ class Home_model extends CI_Model {
     }
 
     public function approve_request($value) {
-        $this->db->set('status', 'Y');
+        $this->db->set('status', '1');
         $this->db->where('id_request', $value);
         $this->db->update('request');
     }
@@ -104,5 +127,11 @@ class Home_model extends CI_Model {
         $this->db->where('id_book', $value);
         $this->db->order_by('id_book', 'ASC');
         $this->db->get('request');
+    }
+
+    public function delete_request($id_request)
+    {
+        $this->db->where('id_request', $id_request);
+        $this->db->delete('request');
     }
 }

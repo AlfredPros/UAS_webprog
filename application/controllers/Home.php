@@ -107,6 +107,7 @@ class Home extends CI_Controller {
                 }
                 else {
                     $newdata = array(
+                        'id' => $result[0]['id_user'],
                         'name'  => $result[0]['name'],
                         'link_profile' => $result[0]['link_profile'],
                         'role' => $result[0]['role'],
@@ -509,6 +510,71 @@ class Home extends CI_Controller {
         }
     }
 
+    // Request
+    public function request_list()
+    {
+        if (isset($_SESSION['logged_in'])) {
+            $data['js'] = $this->load->view('include/javascript.php', NULL, TRUE);
+            $data['css'] = $this->load->view('include/css.php', NULL, TRUE);
+            $data['header'] = $this->load->view('pages/header.php', NULL, TRUE);
+            switch ($_SESSION['role']) {
+                case 'User':
+                    $data['requests'] = $this->home_model->get_user_request($_SESSION['id']);
+                    $this->load->view('pages/request_list_user.php', $data, NULL);
+                    break;
+                case 'Manager':
+                    $data['requests'] = $this->home_model->get_unapproved_request();
+                    $this->load->view('pages/request_list_manager.php', $data, NULL);
+                    break;
+                case 'Admin':
+                    $data['requests'] = $this->home_model->get_list_request();
+                    $this->load->view('pages/request_list_admin.php', $data, NULL);
+                    break;
+                default:
+                    $this->error404();
+                    break;
+            }
+            
+        } 
+        else {
+            $this->error404();
+        }
+    }
+
+    public function approve_request()
+    {
+        if (isset($_SESSION['logged_in']) && $_SESSION['role'] == 'Manager') {
+            $id_request = $this->input->get('id_request');
+            $this->home_model->approve_request($id_request);
+            redirect("home/request_list");
+        }
+        else {
+            $this->error404();
+        }
+    }
+
+    public function reject_request()
+    {
+        if (isset($_SESSION['logged_in']) && $_SESSION['role'] == 'Manager') {
+            $id_request = $this->input->get('id_request');
+            $this->home_model->reject_request($id_request);
+            redirect("home/request_list");
+        }
+        else {
+            $this->error404();
+        }
+    }
+
+    public function delete_request() {
+        if (isset($_SESSION['logged_in']) && $_SESSION['role'] == 'Admin') {
+            $id_request = $this->input->get('id_request');
+            $this->home_model->delete_request($id_request);
+            redirect("home/request_list");
+        }
+        else {
+            $this->error404();
+        }
+    }
 
 
     /*
