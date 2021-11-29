@@ -19,6 +19,7 @@ class Home_model extends CI_Model {
     public function delete_user($value) {
         $this->db->where('id_user', $value);
         $this->db->delete('request');
+        $this->db->where('id_user', $value);
         $this->db->delete('user');
     }
 

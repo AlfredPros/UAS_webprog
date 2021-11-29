@@ -18,7 +18,6 @@ class Home extends CI_Controller {
             $this->load->view('pages/home.php', $data);
         }
         else {
-
             switch ($_SESSION['role']) {
                 case 'User':
                     $this->load->view('pages/home_user.php', $data);
@@ -29,16 +28,26 @@ class Home extends CI_Controller {
                     break;
                 
                 case 'Admin':
-                    if ($listing = 'user_listing') {
-                        $items = $this->home_model->get_list_user(); 
-                    }
-                    $data['table'] = $this->load->view('pages/'.$listing.'.php', $items, NULL);
                     $this->load->view('pages/home_admin.php', $data);
                     break;
                 default:
                     $this->load->view('pages/error.php', $data);
                     break;
             }
+        }
+    }
+
+    public function user_list()
+    {
+        if (isset($_SESSION['logged_in']) && $_SESSION['role'] == 'Admin') {
+            $data['js'] = $this->load->view('include/javascript.php', NULL, TRUE);
+            $data['css'] = $this->load->view('include/css.php', NULL, TRUE);
+            $data['header'] = $this->load->view('pages/header.php', NULL, TRUE);
+            $data['users'] = $this->home_model->get_list_user();
+            $this->load->view('pages/user_list_admin.php', $data, NULL);
+        } 
+        else {
+            $this->error404();
         }
     }
 
@@ -191,53 +200,28 @@ class Home extends CI_Controller {
         }
     }
 
-    public function edit_user($id_user) {
-        if (!isset($_SESSION['logged_in']) || $_SESSION['logged_in'] == false) {
-            $newdata = array(
-                'alertNotif'  => 'Login is required to see the page.',
-                'logged_in' => false
-            );
-
-            $this->session->set_userdata($newdata);
-
-            redirect("home");
-        }
-
-        // Cek Role Admin
-        if ($_SESSION['role'] != 'Admin') {
-            $this->error404();
-        } else {
+    public function edit_user() {
+        $id_user = $this->input->get('id_user');
+        if (isset($_SESSION['logged_in']) && $_SESSION['role'] == 'Admin') {
+            $data['js'] = $this->load->view('include/javascript.php', NULL, TRUE);
+            $data['css'] = $this->load->view('include/css.php', NULL, TRUE);
+            $data['header'] = $this->load->view('pages/header.php', NULL, TRUE);
             $data['user'] = $this->home_model->get_user($id_user);
-    
-            if (empty($data['buku'])) {  // id not found
-                $this->error404();
-            }
-            else {  // id found
-                $data['js'] = $this->load->view('include/javascript.php', NULL, TRUE);
-                $data['css'] = $this->load->view('include/css.php', NULL, TRUE);
-                $data['header'] = $this->load->view('pages/header.php', NULL, TRUE);
-                $this->load->view('pages/edit.php', $data);
-            }
+            $this->load->view('pages/edit_user.php', $data);
+        }
+        else {
+            $this->error404();
         }
     }
 
-    public function delete_user($id_user) {
-        if (!isset($_SESSION['logged_in']) || $_SESSION['logged_in'] == false) {
-            $newdata = array(
-                'alertNotif'  => 'Login is required to see the page.',
-                'logged_in' => false
-            );
-
-            $this->session->set_userdata($newdata);
-
-            redirect("home");
-        }
-        // Role bukan admin
-        if ($_SESSION['role'] != 'Admin') {
-            $this->error404();
-        } else {
+    public function delete_user() {
+        $id_user = $this->input->get('id_user');
+        if (isset($_SESSION['logged_in']) && $_SESSION['role'] == 'Admin') {
             $this->home_model->delete_user($id_user);
             redirect("home");
+        }
+        else {
+            $this->error404();
         }
     }
 
@@ -252,6 +236,63 @@ class Home extends CI_Controller {
         $this->session->sess_destroy();
 
         redirect("home");
+    }
+
+    public function do_edit_user() {
+        if (!isset($_SESSION['logged_in']) || $_SESSION['logged_in'] == false || $_SESSION['role'] != 'Admin') {
+            $this->error404();
+        }
+
+        $this->form_validation->set_rules("id_user", "id_user", "required");
+        $this->form_validation->set_rules("email", "email", "required|valid_email");
+		$this->form_validation->set_rules("name", "name", "required");
+		$this->form_validation->set_rules("role", "role", "required|in_list[Admin,Manager,User]");
+
+		$config['upload_path'] = './assets/pp/';
+		$config['allowed_types'] = 'png|jpg|gif';
+		$config['max_size'] = 4096;
+		$config['max_width'] = 2048;
+		$config['max_height'] = 2048;
+		$config['encrypt_name'] = true;
+		$this->load->library('upload', $config);
+
+		if ($this->form_validation->run() == false) {
+            $id_user = $this->input->post('id_user');
+
+            $data['js'] = $this->load->view('include/javascript.php', NULL, TRUE);
+            $data['css'] = $this->load->view('include/css.php', NULL, TRUE);
+            $data['header'] = $this->load->view('pages/header.php', NULL, TRUE);
+            $data['user'] = $this->home_model->get_user($id_user);
+            $this->load->view('pages/edit_user.php', $data);
+		}
+		else {
+			if (!$this->upload->do_upload('link_profile')) {
+                $id_user = $this->input->post('id_user');
+
+                $data['error'] = array('error' => $this->upload->display_errors());
+				
+                $data['js'] = $this->load->view('include/javascript.php', NULL, TRUE);
+                $data['css'] = $this->load->view('include/css.php', NULL, TRUE);
+                $data['header'] = $this->load->view('pages/header.php', NULL, TRUE);
+                $data['user'] = $this->home_model->get_user($id_user);
+                $this->load->view('pages/edit_user.php', $data);
+			}
+			else {
+				$data = array('upload_data' => $this->upload->data());
+
+				$values = array(
+                    'id_user' => $this->input->post('id_user'),
+					'email' => $this->input->post('email'),
+					'name' => $this->input->post('name'),
+					'role' => $this->input->post('role'),
+					'link_profile' => 'assets/pp/'.$data['upload_data']['file_name']
+				);
+
+				$this->home_model->update_user($values);
+
+				redirect("home/user_list");
+			}
+		}
     }
 
     /*

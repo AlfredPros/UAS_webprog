@@ -24,7 +24,7 @@
     </div>
 
     <div class="container" style="margin-top: 35px;">
-		<form class="col-md-4 offset-md-4" action="<?= base_url("index.php/home/do_edit") ?>" method="POST" enctype="multipart/form-data">
+		<form class="col-md-4 offset-md-4" action="<?= base_url("index.php/home/do_edit_user") ?>" method="POST" enctype="multipart/form-data">
 			<div class="mb-3">
 				<label for="id_buku">Book ID</label>
 				<input type="text" class="form-control" id="id_buku" name="id_buku" placeholder="Ya Yeet" value="<?= $buku[0]['id_buku'] ?>" disabled> 
