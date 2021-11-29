@@ -22,8 +22,7 @@ class Home_model extends CI_Model {
         $this->db->delete('user');
     }
 
-    public function update_user($value)
-    {
+    public function update_user($value) {
         $this->db->where('id_user', $value['id_user']);
         $this->db->update('user', $value);
     }
@@ -45,8 +44,7 @@ class Home_model extends CI_Model {
         $this->db->insert('list_book', $values);
     }
 
-    function update_book($values)
-    {
+    function update_book($values) {
         $this->db->trans_begin();
         $this->db->where('id_book', $values['id_book']);
         $this->db->update('list_book', $values);
@@ -91,5 +89,11 @@ class Home_model extends CI_Model {
         $this->db->set('status', 'N');
         $this->db->where('id_request', $value);
         $this->db->update('request');
+    }
+
+    public function get_book_request($value) {
+        $this->db->where('id_book', $value);
+        $this->db->order_by('id_book', 'ASC');
+        $this->db->get('request');
     }
 }
