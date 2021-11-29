@@ -318,6 +318,112 @@ class Home extends CI_Controller {
         }
     }
 
+    public function book_detail()
+    {
+        if (isset($_SESSION['logged_in'])) {
+            $book = $this->input->get('id_book');
+
+            $data['js'] = $this->load->view('include/javascript.php', NULL, TRUE);
+            $data['css'] = $this->load->view('include/css.php', NULL, TRUE);
+            $data['header'] = $this->load->view('pages/header.php', NULL, TRUE);
+            $data['book'] = $this->home_model->get_book($book);
+            if (empty($data['book'])) {
+                $this->error404();
+            } 
+            else {
+                $this->load->view('pages/book_detail.php', $data, NULL);
+            }
+        } 
+        else {
+            $this->error404();
+        }
+    }
+
+    public function booking_manga()
+    {
+        if (isset($_SESSION['logged_in'])) {
+            $book = $this->input->get('id_book');
+
+            $data['js'] = $this->load->view('include/javascript.php', NULL, TRUE);
+            $data['css'] = $this->load->view('include/css.php', NULL, TRUE);
+            $data['header'] = $this->load->view('pages/header.php', NULL, TRUE);
+            $data['book'] = $this->home_model->get_book($book);
+            if (empty($data['book'])) {
+                $this->error404();
+            } 
+            else {
+                $this->load->view('pages/booking_manga.php', $data, NULL);
+            }
+        } 
+        else {
+            $this->error404();
+        }
+    }
+
+    public function do_booking_manga()
+    {
+        if (isset($_SESSION['logged_in']) && $_SESSION['role'] == 'User') {
+            $this->form_validation->set_rules("id_book", "id_book", "required");
+            $this->form_validation->set_rules("id_user", "id_user", "required");
+            $this->form_validation->set_rules("start_time", "start_time", "required");
+            $this->form_validation->set_rules("end_time", "end_time", "required");
+
+            if ($this->form_validation->run() == false) {
+                $book = $this->input->post('id_book');
+
+                $data['js'] = $this->load->view('include/javascript.php', NULL, TRUE);
+                $data['css'] = $this->load->view('include/css.php', NULL, TRUE);
+                $data['header'] = $this->load->view('pages/header.php', NULL, TRUE);
+                $data['book'] = $this->home_model->get_book($book);
+                $this->load->view('pages/booking_manga.php', $data);
+            }
+            else {
+                $datebook1 = $this->input->post('start_time');
+                $datebook2 = $this->input->post('end_time');
+                $date1 = strtotime($datebook1);
+                $date2 = strtotime($datebook2);
+
+                $hourDiff = round(($date2 - $date1) / (60*60*24),0);
+
+                if ($hourDiff < 1 || $hourDiff > 7) {
+                    if ($hourDiff < 1) {
+                        $temp = "Date is too short.";
+                    }
+                    else {
+                        $temp = "Date is larger than the allowed 7 days.";
+                    }
+
+                    $newdata = array(
+                        'alert'  => $temp
+                    );
+        
+                    $this->session->set_userdata($newdata);
+
+                    $book = $this->input->post('id_book');
+
+                    $data['js'] = $this->load->view('include/javascript.php', NULL, TRUE);
+                    $data['css'] = $this->load->view('include/css.php', NULL, TRUE);
+                    $data['header'] = $this->load->view('pages/header.php', NULL, TRUE);
+                    $data['book'] = $this->home_model->get_book($book);
+                    $this->load->view('pages/booking_manga.php', $data);
+                } else {
+                    $values = array(
+                        'id_book' => $this->input->post('id_book'),
+                        'id_user' => $this->input->post('id_user'),
+                        'start_time' => $datebook1,
+                        'end_time' => $datebook2
+                    );
+    
+                    $this->home_model->insert_request($values);
+    
+                    redirect("home/book_list");
+                }
+            }
+        } else {
+            $this->error404();
+        }
+    }
+
     public function delete_book() {
         if (isset($_SESSION['logged_in']) && ($_SESSION['role'] == 'Admin' || $_SESSION['role'] == 'Manager')) {
             $id_book = $this->input->get('id_book');

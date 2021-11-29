@@ -6,7 +6,7 @@
         echo $css;
     ?>
 
-    <title>Home book</title>
+    <title>Book Detail</title>
 </head>
 <body>
     <?php
@@ -15,31 +15,19 @@
 
     <div class="container" style="margin-top:28px">
         <div class="row">
-            <h1 class="text-center">Manga Listing</h1>
+            <h1 class="text-center"><?= $book[0]['title'] ?></h1>
+        </div>
+        <div class="row justify-content-center">
+            <img src="<?= base_url($book[0]['link_cover']) ?>" style="max-width:256px;" draggable="false">
         </div>
         <div class="row">
-            <p class="text-center">Preview and book manga from this page.</p>
+            <p><?= $book[0]['description'] ?></p>
         </div>
         <br>
        
-        <!-- Book lists -->
-        <div class="row">
-        <?php 
-            foreach(array_slice($books,1) as $book) {
-        ?>
-            <div class="col-md-4">
-                <a href="<?= base_url("index.php/home/book_detail?id_book=").$book['id_book'] ?>">
-                    <img src="<?= base_url($book['link_cover']) ?>">
-                </a>
-                <div class="row">
-                    <a href="<?= base_url("index.php/home/book_detail?id_book=").$book['id_book'] ?>">
-                        <p class="text-center"><?= $book['title'] ?></p>
-                    </a>
-                </div>
-            </div>
-        <?php 
-            }
-        ?>
+        <div class="d-flex justify-content-center align-items-center">
+            <a class="btn btn-primary" role="button" style="margin-right:8px" href="<?= base_url("index.php/home/booking_manga?id_book=".$book[0]['id_book']) ?>">Book</a>
+            <a class="btn btn-secondary" role="button" style="margin-left:8px" href="<?= base_url("index.php/home/book_list") ?>">Return to listing</a>
         </div>
 
         <br>
