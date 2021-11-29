@@ -13,7 +13,13 @@ class Home extends CI_Controller {
         $data['js'] = $this->load->view('include/javascript.php', NULL, TRUE);
         $data['css'] = $this->load->view('include/css.php', NULL, TRUE);
         $data['header'] = $this->load->view('pages/header.php', NULL, TRUE);
-        $this->load->view('pages/home.php', $data);
+
+        if (!isset($_SESSION['logged_in']) || $_SESSION['logged_in'] == false) {
+            $this->load->view('pages/home.php', $data);
+        }
+        else {
+            $this->load->view('pages/error.php', $data);
+        }
     }
 
     public function login() {
@@ -27,7 +33,7 @@ class Home extends CI_Controller {
         $token = $_POST['token'];
         $action = $_POST['action'];
         
-        $score_limit = 0.9;
+        $score_limit = 0.8;
 
         $recaptcha_url = "https://www.google.com/recaptcha/api/siteverify";
         $recaptcha_secret = "6LePRGcdAAAAAMsbA1tKa-a86LahRsHMeeb-1M1t";
@@ -35,11 +41,50 @@ class Home extends CI_Controller {
         $recaptcha = file_get_contents($recaptcha_url . "?secret=" . $recaptcha_secret . "&response=" . $token);
         $arrResponse = json_decode($recaptcha);
 
-        if ($arrResponse->success && $arrResponse->action == $action && $arrResponse->score >= $score_limit) {
-            echo "<h1>Hello,</h1><br><h1>Thanks for not submitting your name! :)</br>";
+        if ($arrResponse->success && $arrResponse->action == $action && $arrResponse->score >= $score_limit) {  // Success
+            $this->form_validation->set_rules("email", "email", "required");
+            $this->form_validation->set_rules("password", "password", "required");
+
+            if ($this->form_validation->run() == false) {
+                $data['js'] = $this->load->view('include/javascript.php', NULL, TRUE);
+                $data['css'] = $this->load->view('include/css.php', NULL, TRUE);
+                $data['header'] = $this->load->view('pages/header.php', NULL, TRUE);
+                $this->load->view('pages/login.php', $data);
+            }
+            else {
+                $password = $this->input->post('pasword');
+                $passhash = hash('sha512', $password);
+
+                $values = array(
+                    'email' => $this->input->post('email'),
+                    'password' => $passhash
+                );
+
+                $result = $this->home_model->check_user($values);
+
+                if (empty($result) == null) {
+                    $data['js'] = $this->load->view('include/javascript.php', NULL, TRUE);
+                    $data['css'] = $this->load->view('include/css.php', NULL, TRUE);
+                    $data['header'] = $this->load->view('pages/header.php', NULL, TRUE);
+                    $this->load->view('pages/login.php', $data);
+                }
+                else {
+                    $newdata = array(
+                        'name'  => $result['name'],
+                        'link_profile' => $result['link_profile'],
+                        'role' => $result['role'],
+                        'logged_in' => true
+                    );
+        
+                    $this->session->set_userdata($newdata);
+                    
+                    redirect("home");
+                }
+                
+            }
         }
-        else {
-            echo "<h1>Spammer Alert!!</h1>";
+        else {  // Not success
+            redirect("home");
         }
     }
 
@@ -62,19 +107,77 @@ class Home extends CI_Controller {
         $recaptcha = file_get_contents($recaptcha_url . "?secret=" . $recaptcha_secret . "&response=" . $token);
         $arrResponse = json_decode($recaptcha);
 
-        if ($arrResponse->success && $arrResponse->action == $action && $arrResponse->score >= $score_limit) {
+        if ($arrResponse->success && $arrResponse->action == $action && $arrResponse->score >= $score_limit) {  // Success
+            $this->form_validation->set_rules("email", "email", "required");
+            $this->form_validation->set_rules("password", "password", "required");
+            $this->form_validation->set_rules("name", "name", "required");
 
+            $config['upload_path'] = './assets/pp/';
+            $config['allowed_types'] = 'png|jpg|gif';
+            $config['max_size'] = 4096;
+            $config['max_width'] = 2048;
+            $config['max_height'] = 2048;
+            $config['encrypt_name'] = true;
+            $this->load->library('upload', $config);
+
+            if ($this->form_validation->run() == false) {
+                $data['js'] = $this->load->view('include/javascript.php', NULL, TRUE);
+                $data['css'] = $this->load->view('include/css.php', NULL, TRUE);
+                $data['header'] = $this->load->view('pages/header.php', NULL, TRUE);
+                $this->load->view('pages/register.php', $data);
+            }
+            else {
+                if (!$this->upload->do_upload('link_profile')) {
+                    $data['error'] = array('error' => $this->upload->display_errors());
+                    
+                    $data['js'] = $this->load->view('include/javascript.php', NULL, TRUE);
+                    $data['css'] = $this->load->view('include/css.php', NULL, TRUE);
+                    $data['header'] = $this->load->view('pages/header.php', NULL, TRUE);
+                    $this->load->view('pages/register.php', $data);
+                }
+                else {
+                    $data = array('upload_data' => $this->upload->data());
+
+                    $password = $this->input->post('password');
+                    $passhash = hash('sha512', $password);
+
+                    $values = array(
+                        'email' => $this->input->post('email'),
+                        'password' => $passhash,
+                        'name' => $this->input->post('name'),
+                        'link_profile' => 'assets/pp/'.$data['upload_data']['file_name']
+                    );
+
+                    $this->home_model->add_user($values);
+
+                    $newdata = array(
+                        'alert'  => "User has been registered. Please log in to proceed."
+                    );
+        
+                    $this->session->set_userdata($newdata);
+
+                    redirect("home/login");
+                }
+            }
         }
-        else {
-            echo "<h1>Spammer Alert!!</h1>";
+        else {  // Not success
+            redirect("home");
         }
     }
+
+
 
     public function error404() {
         $data['js'] = $this->load->view('include/javascript.php', NULL, TRUE);
         $data['css'] = $this->load->view('include/css.php', NULL, TRUE);
         $data['header'] = $this->load->view('pages/header.php', NULL, TRUE);
         $this->load->view('pages/error.php', $data);
+    }
+
+    public function logout() {
+        $this->session->sess_destroy();
+
+        redirect("home");
     }
 
     /*

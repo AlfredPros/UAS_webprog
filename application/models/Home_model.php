@@ -3,7 +3,7 @@
 class Home_model extends CI_Model {
     // User
     function check_user($values) {
-        $this->db->where('email', $values['email']);
+        $this->db->where($values);
         $query = $this->db->get('user');
         return $query->result_array();
     }

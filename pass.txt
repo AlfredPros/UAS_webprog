@@ -1,4 +1,6 @@
 
+email: admin@admin.com
 pass: kuis2pemweb2017garam
 
+email: user@user.com
 pass: localhost
