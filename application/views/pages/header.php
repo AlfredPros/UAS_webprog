@@ -19,6 +19,7 @@
                 <li class="nav-item dropdown">
                     <a class="nav-link" href="<?= base_url("index.php/home/logout") ?>">Log Out</a>
                 </li>
+                <?php if (isset($_SESSION['name'])) {echo $_SESSION['name'];} ?>
             </ul>
         </div>
     </div>
