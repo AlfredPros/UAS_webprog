@@ -53,7 +53,7 @@ class Home extends CI_Controller {
         $arrResponse = json_decode($recaptcha);
 
         if ($arrResponse->success && $arrResponse->action == $action && $arrResponse->score >= $score_limit) {  // Success
-            $this->form_validation->set_rules("email", "email", "required");
+            $this->form_validation->set_rules("email", "email", "required|valid_email");
             $this->form_validation->set_rules("password", "password", "required");
 
             if ($this->form_validation->run() == false) {
@@ -67,7 +67,7 @@ class Home extends CI_Controller {
                 $passhash = hash('sha512', $password);
 
                 $values = array(
-                    'email' => $this->input->post('email'),
+                    'email' => strip_tags($this->input->post('email')),
                     'password' => $passhash
                 );
 
@@ -125,7 +125,7 @@ class Home extends CI_Controller {
         $arrResponse = json_decode($recaptcha);
 
         if ($arrResponse->success && $arrResponse->action == $action && $arrResponse->score >= $score_limit) {  // Success
-            $this->form_validation->set_rules("email", "email", "required");
+            $this->form_validation->set_rules("email", "email", "required|valid_email");
             $this->form_validation->set_rules("password", "password", "required");
             $this->form_validation->set_rules("name", "name", "required");
 
@@ -159,9 +159,9 @@ class Home extends CI_Controller {
                     $passhash = hash('sha512', $password);
 
                     $values = array(
-                        'email' => $this->input->post('email'),
+                        'email' => strip_tags($this->input->post('email')),
                         'password' => $passhash,
-                        'name' => $this->input->post('name'),
+                        'name' => strip_tags($this->input->post('name')),
                         'link_profile' => 'assets/pp/'.$data['upload_data']['file_name']
                     );
 

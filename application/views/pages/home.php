@@ -18,14 +18,14 @@
             <h3>Anime Manga Kawaii Desu</h3>
         </div>
         <div class="row" style="margin-top:26px">
-            <a href="<?= base_url('index.php/home/register') ?>" class="btn btn-primary" role="button">Lubang Pengatur Panas</a>
+            <a href="<?= base_url('index.php/home/register') ?>" class="btn btn-primary" role="button">Tingkat Nada</a>
         </div>
         <div class="row" style="margin-top:8px">
 		    <a href="<?= base_url('index.php/home/login') ?>" class="btn btn-secondary" role="button">Gabung</a>
         </div>
         <hr style="margin-top:26px">
         <div class="row" style="margin-top:6px">
-            <p>This site is protected by reCAPTCHA Enterprise and the Google <a href="https://policies.google.com/privacy">Privacy Policy</a> and <a href="https://policies.google.com/terms">Terms of Service</a> apply.</p>
+            <p>This site is protected by reCAPTCHA and the Google <a href="https://policies.google.com/privacy">Privacy Policy</a> and <a href="https://policies.google.com/terms">Terms of Service</a> apply.</p>
         </div>
 	</div>
 
