@@ -10,8 +10,9 @@
         // Linking to the font file
         src: url(<?= base_url("assets/Aller.ttf")?>);
     }
+    @import url(<?= base_url("assets/Aller.ttf")?>);
     body {
-        font-family: aller;
+        font-family: Aller;
     }
 
 </style>
