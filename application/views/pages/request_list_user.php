@@ -6,7 +6,7 @@
         echo $css;
     ?>
 
-    <title>Home user</title>
+    <title>Home request</title>
 </head>
 <body>
     <?php
@@ -23,35 +23,53 @@
         <br>
         <div class="row">
             <div class="col text-center">
-                <a href="<?= base_url("index.php/home/user_list") ?>" class="btn btn-primary" role="button">Users Listing</a>
                 <a href="<?= base_url("index.php/home/book_list") ?>" class="btn btn-primary" role="button">Manga Listing</a>
                 <a href="<?= base_url("index.php/home/request_list") ?>" class="btn btn-primary" role="button">Requests Listing</a>
             </div>
         </div>
         <br>
     </div>
+    
     <div class="container" style="padding-top:25px; padding-bottom:30px">
+        <div class="row" style="margin-bottom: 2rem;">
+        <a href="<?= base_url('index.php/home/add_request') ?>">
+            <button class="btn btn-primary">Add</button>
+        </a>
+        </div>
         <table class="table table-striped table-hover" id="tableProduct">
             <thead>
                 <tr>
                     <th>#</th>
-                    <th>Name</th>
-                    <th>Email</th>
-                    <th>Role</th>
+                    <th>Requester</th>
+                    <th>Requested Manga</th>
+                    <th>Start Date</th>
+                    <th>End Date</th>
                     <th>Operation</th>
                 </tr>
             </thead>
 
             <tbody>
-                <?php foreach($users as $user) { ?>
+                <?php foreach($requests as $request) { ?>
                     <tr>
-                        <td><?= array_search($user, $users)+1; ?></td>
-                        <td><?= $user['name']; ?></td>
-                        <td><?= $user['email']; ?></td>
-                        <td><?= $user['role']; ?></td>
+                        <td><?= array_search($request, $requests)+1; ?></td>
+                        <td><?= $request['name']; ?></td>
+                        <td><?= $request['title']; ?></td>
+                        <td><?= $request['start_time']; ?></td>
+                        <td><?= $request['end_time']; ?></td>
                         <td>
-                            <a class="btn btn-primary" role="button" href="<?= base_url("index.php/home/edit_user?id_user=").$user['id_user']; ?>">✏️</a>
-                            <a class="btn btn-danger" role="button" href="<?= base_url("index.php/home/delete_user?id_user=").$user['id_user']; ?>">❌</a>
+                            <?php
+                                switch ($request['status']) {
+                                    case '1':
+                                        echo "Approved";
+                                        break;
+                                    case '0':
+                                        echo "Rejected";
+                                        break;
+                                   default:
+                                        echo "Waiting for approval";
+                                        break;
+                                }
+                            ?>
                         </td>
                     </tr>
                 <?php }; ?>
@@ -59,10 +77,11 @@
 
             <tfoot>
                 <tr>
-                    <th>#</th>
-                    <th>Name</th>
-                    <th>Email</th>
-                    <th>Role</th>
+                <th>#</th>
+                    <th>Requester</th>
+                    <th>Requested Manga</th>
+                    <th>Start Date</th>
+                    <th>End Date</th>
                     <th>Operation</th>
                 </tr>
             </tfoot>
