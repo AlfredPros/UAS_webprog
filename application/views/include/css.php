@@ -5,14 +5,13 @@
 
 <style>
     @font-face {
-        // Defining what the font will be called
-        font-family: aller;
-        // Linking to the font file
-        src: url(<?= base_url("assets/Aller.ttf")?>);
-    }
-    @import url(<?= base_url("assets/Aller.ttf")?>);
-    body {
         font-family: Aller;
+        src: url('<?= base_url('assets/Aller.ttf')?>') format('truetype');
+    }
+    @import url('<?= base_url('assets/Aller.ttf')?>');
+
+    body {
+        font-family: 'Aller';
     }
 
 </style>
