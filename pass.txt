@@ -4,3 +4,6 @@ pass: kuis2pemweb2017garam
 
 email: user@user.com
 pass: localhost
+
+email: ikan@goreng.com
+pass: user
