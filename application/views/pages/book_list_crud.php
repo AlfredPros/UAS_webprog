@@ -32,10 +32,8 @@
     </div>
     
     <div class="container" style="padding-top:25px; padding-bottom:30px">
-        <div class="row" style="margin-bottom: 2rem;">
-        <a href="<?= base_url('index.php/home/add_book') ?>">
-            <button class="btn btn-primary">Add</button>
-        </a>
+        <div class="col" style="margin-bottom: 2rem;">
+            <a class="btn btn-primary" role="button" href="<?= base_url('index.php/home/add_book') ?>">Add</a>
         </div>
         <table class="table table-striped table-hover" id="tableProduct">
             <thead>
