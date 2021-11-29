@@ -9,7 +9,7 @@ class Home extends CI_Controller {
         $this->load->library('session');
     }
 
-    public function index() {  // Landing page
+    public function index($listing = null) {  // Landing page
         $data['js'] = $this->load->view('include/javascript.php', NULL, TRUE);
         $data['css'] = $this->load->view('include/css.php', NULL, TRUE);
         $data['header'] = $this->load->view('pages/header.php', NULL, TRUE);
@@ -18,17 +18,26 @@ class Home extends CI_Controller {
             $this->load->view('pages/home.php', $data);
         }
         else {
-            if ($_SESSION['role'] == 'User') {
-                $this->load->view('pages/home_user.php', $data);
-            }
-            else if ($_SESSION['role'] == 'Manager') {
-                $this->load->view('pages/home_management.php', $data);
-            }
-            else if ($_SESSION['role'] == 'Admin') {
-                $this->load->view('pages/home_admin.php', $data);
-            }
-            else {
-                $this->load->view('pages/error.php', $data);
+
+            switch ($_SESSION['role']) {
+                case 'User':
+                    $this->load->view('pages/home_user.php', $data);
+                    break;
+                
+                case 'Manager':
+                    $this->load->view('pages/home_management.php', $data);
+                    break;
+                
+                case 'Admin':
+                    if ($listing = 'user_listing') {
+                        $items = $this->home_model->get_list_user(); 
+                    }
+                    $data['table'] = $this->load->view('pages/'.$listing.'.php', $items, NULL);
+                    $this->load->view('pages/home_admin.php', $data);
+                    break;
+                default:
+                    $this->load->view('pages/error.php', $data);
+                    break;
             }
         }
     }
