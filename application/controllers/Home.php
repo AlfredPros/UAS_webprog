@@ -70,9 +70,6 @@ class Home extends CI_Controller {
         }
     }
 
-
-
-
     public function error404() {
         $data['js'] = $this->load->view('include/javascript.php', NULL, TRUE);
         $data['css'] = $this->load->view('include/css.php', NULL, TRUE);
@@ -246,8 +243,8 @@ class Home extends CI_Controller {
 				$data = array('upload_data' => $this->upload->data());
 
 				$values = array(
-					'judul_buku' => $this->input->post('Title'),
-					'tahun_terbit' => $this->input->post('Year'),
+					'title' => $this->input->post('Title'),
+					'year' => $this->input->post('Year'),
 					'penulis_buku' => $this->input->post('Publisher'),
                     'penerbit_buku' => $this->input->post('Author'),
 					'link_poster' => 'assets/poster/'.$data['upload_data']['file_name']

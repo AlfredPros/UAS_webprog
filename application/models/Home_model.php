@@ -19,6 +19,7 @@ class Home_model extends CI_Model {
 
     public function delete_user($value) {
         $this->db->where('id_user', $value);
+        $this->db->delete('request');
         $this->db->delete('user');
     }
 
@@ -58,6 +59,8 @@ class Home_model extends CI_Model {
     }
 
     function delete_book($id_book) {
+        $this->db->where('id_book', $id_book);
+        $this->db->delete('request');
         $query = $this->db->query("DELETE FROM list_book WHERE id_book = ?", $id_book);
     }
 
