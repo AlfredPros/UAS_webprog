@@ -318,8 +318,8 @@ class Home extends CI_Controller {
     }
 
     public function delete_book() {
-        $id_book = $this->input->get('id_book');
         if (isset($_SESSION['logged_in']) && ($_SESSION['role'] == 'Admin' || $_SESSION['role'] == 'Manager')) {
+            $id_book = $this->input->get('id_book');
             $this->home_model->delete_book($id_book);
             redirect("home/book_list");
         }
