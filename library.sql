@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Nov 29, 2021 at 09:42 AM
+-- Generation Time: Nov 29, 2021 at 10:13 AM
 -- Server version: 10.4.20-MariaDB
 -- PHP Version: 7.4.22
 
@@ -74,7 +74,7 @@ CREATE TABLE `user` (
   `email` varchar(255) NOT NULL,
   `password` varchar(1000) NOT NULL,
   `name` varchar(255) NOT NULL,
-  `role` varchar(50) NOT NULL,
+  `role` varchar(50) NOT NULL DEFAULT 'User',
   `link_profile` varchar(255) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 

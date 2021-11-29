@@ -51,8 +51,8 @@ class Home extends CI_Controller {
     }
 
     public function do_register() {
-        $token = $_POST['token'];
-        $action = $_POST['action'];
+        $token = $this->input->post('token');
+        $action = $this->input->post('action');
         
         $score_limit = 0.9;
 
@@ -63,7 +63,7 @@ class Home extends CI_Controller {
         $arrResponse = json_decode($recaptcha);
 
         if ($arrResponse->success && $arrResponse->action == $action && $arrResponse->score >= $score_limit) {
-            echo "<h1>Hello,</h1><br><h1>Thanks for not submitting your name! :)</br>";
+
         }
         else {
             echo "<h1>Spammer Alert!!</h1>";
@@ -76,7 +76,6 @@ class Home extends CI_Controller {
         $data['header'] = $this->load->view('pages/header.php', NULL, TRUE);
         $this->load->view('pages/error.php', $data);
     }
-
 
     /*
     public function detail_buku() {

@@ -49,6 +49,10 @@
 				<input type="password" class="form-control" id="password" name="password" placeholder="password" value="<?= set_value("password") ?>"> 
 				<div style="color:red"><?= form_error('password'); ?></div>
 			</div>
+            
+            <div class="row">
+                <input type="file" name="profile" id="profile">
+            </div>
 
 			<input type="hidden" name="token" id="formToken">
             <input type="hidden" name="action" id="formAction">
