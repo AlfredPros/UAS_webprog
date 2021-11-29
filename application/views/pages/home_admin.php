@@ -24,7 +24,7 @@
         <div class="row">
             <div class="col text-center">
                 <a href="<?= base_url("index.php/home/user_list") ?>" class="btn btn-primary" role="button">Users Listing</a>
-                <a href="<?= base_url("index.php/home/facilities_list") ?>" class="btn btn-primary" role="button">Facilities Listing</a>
+                <a href="<?= base_url("index.php/home/book_list") ?>" class="btn btn-primary" role="button">Manga Listing</a>
                 <a href="<?= base_url("index.php/home/request_list") ?>" class="btn btn-primary" role="button">Requests Listing</a>
             </div>
         </div>

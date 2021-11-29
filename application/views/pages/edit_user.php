@@ -56,7 +56,6 @@
 
 			<p><input type="file"  accept="image/*" name="link_profile" id="file"  onchange="loadFile(event)" style="display: none;" value="<?= base_url($user[0]['link_profile']) ?>"></p>
 			<p><label for="file" style="cursor: pointer;">Profile Picture</label></p>
-			<!-- <p><img for="file" id="output" width="200" src="<?= base_url($user[0]['link_profile']) ?>"/></p> -->
 
 			<div class="image-upload">
 				<label for="file-input">
