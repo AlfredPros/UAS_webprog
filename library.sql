@@ -3,9 +3,9 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Nov 29, 2021 at 02:02 PM
+-- Generation Time: Nov 29, 2021 at 06:05 PM
 -- Server version: 10.4.20-MariaDB
--- PHP Version: 8.0.9
+-- PHP Version: 7.4.22
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -33,7 +33,7 @@ CREATE TABLE `list_book` (
   `year` int(4) NOT NULL,
   `author` varchar(255) NOT NULL,
   `publisher` varchar(255) NOT NULL,
-  `link_poster` varchar(255) NOT NULL,
+  `link_cover` varchar(255) NOT NULL,
   `description` mediumtext NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
@@ -41,11 +41,12 @@ CREATE TABLE `list_book` (
 -- Dumping data for table `list_book`
 --
 
-INSERT INTO `list_book` (`id_book`, `title`, `year`, `author`, `publisher`, `link_poster`, `description`) VALUES
-(2, 'Gyate Gyate', 2020, 'Zen Kyara', 'ZeroRespect', 'assets/poster/cb5231121c6a9ffef23894e92b35e1e2.png', ''),
-(5, 'Menaricc Roll', 2019, 'Alert', 'Maki Ligon', 'assets/poster/97a0c7ce4572c22f7e48ecefeab7d69a.png', ''),
-(6, 'Food and Musik', 2017, 'Elegant Sister', 'Sakuzyo', 'assets/poster/78f637e9c5e924f23d103931df8126f7.png', ''),
-(7, 'Alert - Blue Archive', 2021, 'KARUT', 'Maki Ligon', 'assets/poster/a893170fefb73096dfe2e1b806572fbd.png', '');
+INSERT INTO `list_book` (`id_book`, `title`, `year`, `author`, `publisher`, `link_cover`, `description`) VALUES
+(2, 'Gyate Gyate Vol 2', 2020, 'Zen Kyara', 'ZeroRespect', 'assets/cover/2f510cf8dff66aada74df4a153840907.gif', ''),
+(5, 'Menaricc Roll', 2019, 'Alert', 'Maki Ligon', 'assets/cover/97a0c7ce4572c22f7e48ecefeab7d69a.png', ''),
+(6, 'Food and Musik', 2017, 'Elegant Sister', 'Sakuzyo', 'assets/cover/78f637e9c5e924f23d103931df8126f7.png', ''),
+(7, 'Alert - Blue Archive', 2021, 'KARUT', 'Maki Ligon', 'assets/cover/a893170fefb73096dfe2e1b806572fbd.png', ''),
+(9, 'No Game NO LIFE', 2018, 'Madhouse', 'Yū Kamiya', 'assets/cover/400b0c34de768dbe4d0e0775bafbfa16.jpg', 'Lorem ipsum dolor sit, amet consectetur adipisicing elit. Dolor totam laborum esse voluptatibus rerum suscipit, perferendis quod temporibus et error inventore, exercitationem maiores unde, enim sed veritatis nulla dignissimos culpa! Corporis placeat mollitia nisi dolorem porro odit voluptatem deserunt enim adipisci laborum et accusantium iste a tempora, aliquam molestiae. Aut architecto voluptate fuga fugit ullam magni, optio aperiam magnam excepturi.');
 
 -- --------------------------------------------------------
 
@@ -57,9 +58,8 @@ CREATE TABLE `request` (
   `id_request` int(11) NOT NULL,
   `id_user` bigint(20) DEFAULT NULL,
   `id_book` bigint(20) DEFAULT NULL,
-  `request_date` int(11) NOT NULL,
-  `start_time` int(11) NOT NULL,
-  `end_time` int(11) NOT NULL,
+  `start_time` datetime DEFAULT current_timestamp(),
+  `end_time` datetime NOT NULL,
   `status` char(1) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
@@ -84,8 +84,7 @@ CREATE TABLE `user` (
 
 INSERT INTO `user` (`id_user`, `email`, `password`, `name`, `role`, `link_profile`) VALUES
 (3, 'admin@admin.com', '20a4c7d7bd12a1437f86357edde840fcff61e5f81897ac92f56d01db9ccfeb24493beb0e66e2e4e8e25684f7d3c02002f85f2fa23ad4fbac5ad42fb9ba904d9e', 'Kak Daniel', 'Admin', 'assets\\pp\\gambar6.png'),
-(4, 'user@user.com', 'cd1839476f44a1b93c5d442b671a99bbdd55dcd829c319a479460a5c58925f3cf7d4fa080c65b92de4375687b9616f78e28b431deb820bda2e3c76805fabe264', 'Adhitya Bagus Wicaksono', 'Manager', 'assets\\pp\\test.gif'),
-(5, 'ikan@goreng.com', 'b14361404c078ffd549c03db443c3fede2f3e534d73f78f77301ed97d4a436a9fd9db05ee8b325c0ad36438b43fec8510c204fc1c1edb21d0941c00e9e2c1ce2', 'Ikan Goreng', 'User', 'assets/pp/82740629cf78c341579eae7631f70114.png');
+(4, 'user@user.com', 'cd1839476f44a1b93c5d442b671a99bbdd55dcd829c319a479460a5c58925f3cf7d4fa080c65b92de4375687b9616f78e28b431deb820bda2e3c76805fabe264', 'Adhitya Bagus Wicaksono 2', 'User', 'assets/pp/e920427c06fdae2746ffb7869c598126.gif');
 
 --
 -- Indexes for dumped tables
@@ -119,13 +118,13 @@ ALTER TABLE `user`
 -- AUTO_INCREMENT for table `list_book`
 --
 ALTER TABLE `list_book`
-  MODIFY `id_book` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
+  MODIFY `id_book` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
 
 --
 -- AUTO_INCREMENT for table `user`
 --
 ALTER TABLE `user`
-  MODIFY `id_user` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
+  MODIFY `id_user` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
 -- Constraints for dumped tables
