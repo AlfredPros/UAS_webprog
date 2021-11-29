@@ -5,51 +5,55 @@
         echo $js;
         echo $css;
     ?>
-    <title>Week 13</title>
+
+    <!-- Recaptcha -->
+    <script src="https://www.google.com/recaptcha/api.js?render=6LePRGcdAAAAAMph8kCaVrkCIIv4P14m0Rmez5xp"></script>
+
+    <script>
+        //function onSubmit(token) {
+        //    document.getElementById("demo-form").submit();
+        //}
+        
+        grecaptcha.ready(function() {
+            grecaptcha.execute('6LePRGcdAAAAAMph8kCaVrkCIIv4P14m0Rmez5xp', {action: 'add_name'}).then(function(token) {
+                // Add your logic to submit to your backend server here.
+                $('#formToken').val(token);
+                $('#formAction').val('add_name');
+            });
+        });
+    </script>
+
+    <style>
+        .grecaptcha-badge { 
+            visibility: hidden;
+        }
+    </style>
+
+    <title>Landing page</title>
 </head>
 <body>
     <?php
         echo $header;
     ?>
 
-    <!-- Modal -->
-    <div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
-        <div class="modal-dialog modal-dialog-centered">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="staticBackdropLabel">Sign In</h5>
-                </div>
-                <form method="POST" action="<?= base_url("index.php/home/dologin") ?>">
-                    <div class="modal-body">
-                        <div class="form-group" style="padding-bottom:5px">
-                            <label for="password" style="padding-bottom:5px">Password:</label>
-                            <input type="password" class="form-control" id="password" name="password" placeholder="password" value="" required>
-                        </div>
-                        <p id="alert"></p>
-                    </div>
-                    <div class="modal-footer">
-                        <button type="submit" class="btn btn-primary" style="margin-right:5px">Submit</button>
-                    </div>
-                </form>
-            </div>
+    <div class="container col-md-4 offset-md-4" style="margin-top: 35px;">
+        <div class="row" style="margin-top:26px">
+            <h2>Anime Manga Kawaii Desu</h2>
         </div>
-    </div>
-
-    <script>
-        <?php 
-            if (isset($_SESSION['alertNotif'])) {
-                echo "$('#alert').append('".$_SESSION['alertNotif']."'); $('#alert').css('color', 'red');";
-                $this->session->unset_userdata('alertNotif');
-            }
-
-            if (!isset($_SESSION['logged_in']) || $_SESSION['logged_in'] == false) {
-                $_SESSION['logged_in'] = false;
-                echo "let myModal = new bootstrap.Modal(document.getElementById('staticBackdrop'), {}); myModal.show();";
-            }
-        ?>
-    </script>
+        <div class="row" style="margin-top:26px">
+            <a href="<?= base_url('index.php/home/register') ?>" class="btn btn-primary" role="button">Lubang Pengatur Panas</a>
+        </div>
+        <div class="row" style="margin-top:26px">
+		    <a href="<?= base_url('index.php/home/login') ?>" class="btn btn-secondary" role="button">Gabung</a>
+        </div>
+        <hr style="margin-top:26px">
+        <div class="row" style="margin-top:6px">
+            <p>This site is protected by reCAPTCHA Enterprise and the Google <a href="https://policies.google.com/privacy">Privacy Policy</a> and <a href="https://policies.google.com/terms">Terms of Service</a> apply.</p>
+        </div>
+	</div>
 
     <!-- Top button -->
+    <!--
     <div class="container" style="padding-top:15px">
         <div class="row justify-content-end">
             <div class="col-auto">
@@ -111,5 +115,7 @@
             $('#tableProduct').DataTable();
         } );
     </script>
+
+    -->
 </body>
 </html>

@@ -18,6 +18,8 @@ class Home extends CI_Controller {
         $this->load->view('pages/home.php', $data);
     }
 
+
+    /*
     public function detail_buku() {
         if (!isset($_SESSION['logged_in']) || $_SESSION['logged_in'] == false) {
             $newdata = array(
@@ -287,5 +289,6 @@ class Home extends CI_Controller {
 
         redirect("home");
     }
+    */
    
 }
