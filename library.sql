@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Nov 29, 2021 at 09:06 AM
+-- Generation Time: Nov 29, 2021 at 09:42 AM
 -- Server version: 10.4.20-MariaDB
 -- PHP Version: 7.4.22
 
@@ -74,16 +74,17 @@ CREATE TABLE `user` (
   `email` varchar(255) NOT NULL,
   `password` varchar(1000) NOT NULL,
   `name` varchar(255) NOT NULL,
-  `role` varchar(50) NOT NULL
+  `role` varchar(50) NOT NULL,
+  `link_profile` varchar(255) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
 -- Dumping data for table `user`
 --
 
-INSERT INTO `user` (`id_user`, `email`, `password`, `name`, `role`) VALUES
-(3, '', '20a4c7d7bd12a1437f86357edde840fcff61e5f81897ac92f56d01db9ccfeb24493beb0e66e2e4e8e25684f7d3c02002f85f2fa23ad4fbac5ad42fb9ba904d9e', '', ''),
-(4, '', 'cd1839476f44a1b93c5d442b671a99bbdd55dcd829c319a479460a5c58925f3cf7d4fa080c65b92de4375687b9616f78e28b431deb820bda2e3c76805fabe264', '', '');
+INSERT INTO `user` (`id_user`, `email`, `password`, `name`, `role`, `link_profile`) VALUES
+(3, 'admin@admin.com', '20a4c7d7bd12a1437f86357edde840fcff61e5f81897ac92f56d01db9ccfeb24493beb0e66e2e4e8e25684f7d3c02002f85f2fa23ad4fbac5ad42fb9ba904d9e', 'Kak Daniel', 'Admin', 'assets\\pp\\gambar6.png'),
+(4, 'user@user.com', 'cd1839476f44a1b93c5d442b671a99bbdd55dcd829c319a479460a5c58925f3cf7d4fa080c65b92de4375687b9616f78e28b431deb820bda2e3c76805fabe264', 'Adhitya Bagus Wicaksono', 'Manager', 'assets\\pp\\test.gif');
 
 --
 -- Indexes for dumped tables
