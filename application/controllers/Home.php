@@ -43,6 +43,33 @@ class Home extends CI_Controller {
         }
     }
 
+    public function register() {
+        $data['js'] = $this->load->view('include/javascript.php', NULL, TRUE);
+        $data['css'] = $this->load->view('include/css.php', NULL, TRUE);
+        $data['header'] = $this->load->view('pages/header.php', NULL, TRUE);
+        $this->load->view('pages/register.php', $data);
+    }
+
+    public function do_register() {
+        $token = $_POST['token'];
+        $action = $_POST['action'];
+        
+        $score_limit = 0.9;
+
+        $recaptcha_url = "https://www.google.com/recaptcha/api/siteverify";
+        $recaptcha_secret = "6LePRGcdAAAAAMsbA1tKa-a86LahRsHMeeb-1M1t";
+
+        $recaptcha = file_get_contents($recaptcha_url . "?secret=" . $recaptcha_secret . "&response=" . $token);
+        $arrResponse = json_decode($recaptcha);
+
+        if ($arrResponse->success && $arrResponse->action == $action && $arrResponse->score >= $score_limit) {
+            echo "<h1>Hello,</h1><br><h1>Thanks for not submitting your name! :)</br>";
+        }
+        else {
+            echo "<h1>Spammer Alert!!</h1>";
+        }
+    }
+
 
 
 

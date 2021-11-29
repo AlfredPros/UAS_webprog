@@ -5,7 +5,7 @@
         echo $js;
         echo $css;
     ?>
-    <title>Login</title>
+    <title>Register</title>
 
 	<!-- Recaptcha -->
     <script src="https://www.google.com/recaptcha/api.js?render=6LePRGcdAAAAAMph8kCaVrkCIIv4P14m0Rmez5xp"></script>
@@ -37,9 +37,9 @@
 
 	<div class="container col-md-3 center" style="margin-top: 35px;">
         <div class="row text-center" style="margin-top:26px">
-            <h2>Login</h2>
+            <h2>Register</h2>
         </div>
-		<form action="<?= base_url("index.php/home/do_login") ?>" method="POST" style="margin-top:26px">
+		<form action="<?= base_url("index.php/home/do_register") ?>" method="POST" style="margin-top:26px">
 			<div class="row">
 				<input type="email" class="form-control" id="email" name="email" placeholder="E-mail address" value="<?= set_value("email") ?>"> 
 				<div style="color:red"><?= form_error('email'); ?></div>
