@@ -25,7 +25,7 @@
         <!-- Book lists -->
         <div class="row">
         <?php 
-            foreach(array_slice($books,1) as $book) {
+            foreach(array_slice($books,0) as $book) {
         ?>
             <div class="col-md-4">
                 <a href="<?= base_url("index.php/home/book_detail?id_book=").$book['id_book'] ?>">
