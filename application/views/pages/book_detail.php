@@ -84,7 +84,7 @@
                 <?php 
                     for ($i=0; $i<2; $i++) {
                         for ($j=0; $j<12; $j++) { 
-                            if ($i == 0 && $j < date('m')-1) {;} else { ?>
+                            if ($i != 0 || $j >= date('m')-1) { ?>
                             <li><a class='dropdown-item' href='<?= base_url("index.php/home/book_detail?id_book=".$book[0]["id_book"]."&month=".($j+1)."&year=".($i+2021)); ?>'>Bulan: <?= $j+1 ?> Tahun: <?= $i+2021 ?></a></li>
                         <?php
                         } }
