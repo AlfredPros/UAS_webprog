@@ -140,7 +140,7 @@ class Home_model extends CI_Model {
             'status' => 2,
             'id_user' => $values['id_user']
         ];
-        $query = $this->db->query("SELECT start_time, end_time FROM request WHERE id_book = ? AND status = ? ORDER BY 1", $where);
+        $query = $this->db->query("SELECT start_time, end_time FROM request WHERE id_book = ? AND status = ? AND id_user = ? ORDER BY 1", $where);
         return $query->result_array();
     }
 
