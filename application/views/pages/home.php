@@ -50,11 +50,12 @@
             background-size: cover;
             background-repeat: no-repeat;
             background-position: center;
+            background-attachment: fixed;
         }
 
         .box {
             background-color: white;
-            border-radius: 10%;
+            border-radius: 25px;
         }
     </style>
 </head>

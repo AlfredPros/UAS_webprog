@@ -72,15 +72,12 @@
             background-size: cover;
             background-repeat: no-repeat;
             background-position: center;
+            background-attachment: fixed;
         }
 
         .box {
             background-color: white;
-            border-radius: 10%;
-        }
-
-        form div input {
-            border: 1px solid #C90000;
+            border-radius: 25px;
         }
     </style>
 </head>
@@ -93,13 +90,13 @@
             <form action="<?= base_url("index.php/home/do_register") ?>" method="POST" style="margin-top:26px" enctype="multipart/form-data">
                 <div class="row">
                     <label for="email">E-Mail Address</label>
-                    <input type="email" class="form-control" id="email" name="email" placeholder="manga@mangabook.com" value="<?= set_value("email") ?>">
+                    <input type="email" class="form-control" id="email" name="email" placeholder="lightyagami@mangabook.com" value="<?= set_value("email") ?>">
                     <div style="color:red"><?= form_error('email'); ?></div>
                 </div>
 
                 <div class="row" style="padding-top: 6px;">
                     <label for="password">Password</label>
-                    <input type="password" class="form-control" id="password" name="password" placeholder="password" value="<?= set_value("password") ?>">
+                    <input type="password" class="form-control" id="password" name="password" placeholder="Password" value="<?= set_value("password") ?>">
                     <div style="color:red"><?= form_error('password'); ?></div>
                 </div>
 
@@ -127,6 +124,10 @@
                     <a href="<?= base_url('index.php/home') ?>" class="btn red-outline-btn" role="button">Cancel</a>
                 </div>
             </form>
+            <hr style="margin-top:26px">
+            <div style="margin-top:6px">
+                <p>This site is protected by reCAPTCHA and the Google <a href="https://policies.google.com/privacy">Privacy Policy</a> and <a href="https://policies.google.com/terms">Terms of Service</a> apply.</p>
+            </div>
         </div>
     </div>
     <!--<div class="container col-md-3 center" style="margin-top: 35px;">
