@@ -133,26 +133,51 @@
                     // Check if day is taken
                     $startReqDay = [];
                     $endReqDay = [];
-                    $dayTaken = [];
+                    $startReqMonth = [];
+                    $endReqMonth = [];
+                    $dayTaken = [];  // All days taken
                     foreach($requests as $request) {
                         array_push($startReqDay, substr($request['start_time'], 8, 2));
                         array_push($endReqDay, substr($request['end_time'], 8, 2));
                     }
+                    foreach($requests as $request) {
+                        array_push($startReqMonth, substr($request['start_time'], 5, 2));
+                        array_push($endReqMonth, substr($request['end_time'], 5, 2));
+                    }
 
                     for ($i=0; $i<sizeof($startReqDay); $i++){
-                        if ($endReqDay[$i]-$startReqDay[$i] > 0) {
+                        if ($endReqDay[$i]-$startReqDay[$i] > 0 && $startReqMonth[$i] == $month && $endReqMonth[$i] == $month) {
                             for($j=0; $j<$endReqDay[$i]-$startReqDay[$i]+1; $j++) {
                                 array_push($dayTaken, $startReqDay[$i]+$j);
                             }
                         }
-                        else {
+                        else if ($startReqMonth[$i] - $endReqMonth[$i] == -1 && $month == $endReqMonth[$i]) {
+                            for($j=0; $j<$endReqDay[$i]+1; $j++) {
+                                array_push($dayTaken, $j);
+                            }
+                        }
+                        else if ($startReqMonth[$i] - $endReqMonth[$i] == -1 && $month == $startReqMonth[$i]) {
                             for($j=0; $j<$days-$startReqDay[$i]+1; $j++) {
                                 array_push($dayTaken, $startReqDay[$i]+$j);
+                            }
+                        }
+                        else if ($startReqMonth[$i] - $endReqMonth[$i] == 11 && $month == $startReqMonth[$i]) {
+                            for($j=0; $j<$days-$startReqDay[$i]+1; $j++) {
+                                array_push($dayTaken, $startReqDay[$i]+$j);
+                            }
+                        }
+                        else if ($startReqMonth[$i] - $endReqMonth[$i] == 11 && $month == $endReqMonth[$i]) {
+                            for($j=0; $j<$endReqDay[$i]+1; $j++) {
+                                array_push($dayTaken, $j);
                             }
                         }
                         
                     }
                     
+                    echo "<br>";
+                    var_dump($startReqMonth);
+                    echo "<br>";
+                    var_dump($endReqMonth);
                     echo "<br>";
                     var_dump($startReqDay);
                     echo "<br>";
