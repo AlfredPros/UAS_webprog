@@ -152,50 +152,50 @@
                     }
 
                     for ($i=0; $i<sizeof($startReqDay); $i++){
-                        if ($endReqDay[$i]-$startReqDay[$i] > 0 && $startReqMonth[$i] == $month && $endReqMonth[$i] == $month) {
+                        if ($endReqDay[$i]-$startReqDay[$i] > 0 && $startReqMonth[$i] == $month && $endReqMonth[$i] == $month && $year == $startReqYear[$i] && $year == $endReqYear[$i]) {
                             for($j=0; $j<$endReqDay[$i]-$startReqDay[$i]+1; $j++) {
                                 array_push($dayTaken, $startReqDay[$i]+$j);
                             }
                         }
-                        else if ($startReqMonth[$i] - $endReqMonth[$i] == -1 && $month == $endReqMonth[$i]) {
+                        else if ($startReqMonth[$i] - $endReqMonth[$i] == -1 && $month == $endReqMonth[$i] && $year == $startReqYear[$i] && $year == $endReqYear[$i]) {
                             for($j=0; $j<$endReqDay[$i]+1; $j++) {
                                 array_push($dayTaken, $j);
                             }
                         }
-                        else if ($startReqMonth[$i] - $endReqMonth[$i] == -1 && $month == $startReqMonth[$i]) {
+                        else if ($startReqMonth[$i] - $endReqMonth[$i] == -1 && $month == $startReqMonth[$i] && $year == $startReqYear[$i] && $year == $endReqYear[$i]) {
                             for($j=0; $j<$days-$startReqDay[$i]+1; $j++) {
                                 array_push($dayTaken, $startReqDay[$i]+$j);
                             }
                         }
-                        else if ($startReqMonth[$i] - $endReqMonth[$i] == 11 && $month == $startReqMonth[$i]) {
+                        else if ($startReqMonth[$i] - $endReqMonth[$i] == 11 && $month == $startReqMonth[$i] && $year == $startReqYear[$i]) {
                             for($j=0; $j<$days-$startReqDay[$i]+1; $j++) {
                                 array_push($dayTaken, $startReqDay[$i]+$j);
                             }
                         }
-                        else if ($startReqMonth[$i] - $endReqMonth[$i] == 11 && $month == $endReqMonth[$i]) {
+                        else if ($startReqMonth[$i] - $endReqMonth[$i] == 11 && $month == $endReqMonth[$i] && $year == $endReqYear[$i]) {
                             for($j=0; $j<$endReqDay[$i]+1; $j++) {
                                 array_push($dayTaken, $j);
                             }
                         }
-                        
                     }
                     
-                    echo "<br><br>Start Year:<br>";
+                    // Debugging
+                    /*
+                    echo "<br><br>";
                     var_dump($startReqYear);
-                    echo "<br>End Year:<br>";
+                    echo "<br>";
                     var_dump($endReqYear);
-                    echo "<br>Start Month:<br>";
+                    echo "<br>";
                     var_dump($startReqMonth);
-                    echo "<br>End Monthr:<br>";
+                    echo "<br>";
                     var_dump($endReqMonth);
-                    echo "<br>Start Day:<br>";
+                    echo "<br>";
                     var_dump($startReqDay);
-                    echo "<br>End Day:<br>";
+                    echo "<br>";
                     var_dump($endReqDay);
                     echo "<br><br>";
                     var_dump($dayTaken);
-
-                    
+                    */
                 ?>
 
                 <tr>
