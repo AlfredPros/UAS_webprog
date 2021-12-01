@@ -423,25 +423,9 @@ class Home extends CI_Controller {
                         'start_time' => $datebook1,
                         'end_time' => $datebook2
                     );
+                    // Validasi hari 
 
-    
-                    $result = $this->home_model->insert_request($values);
-                    if (!$result) {
-                        $temp = 'Hari telah diambil';
-                        $newdata = array(
-                            'alert'  => $temp
-                        );
-            
-                        $this->session->set_userdata($newdata);
-    
-                        $book = $this->input->post('id_book');
-    
-                        $data['js'] = $this->load->view('include/javascript.php', NULL, TRUE);
-                        $data['css'] = $this->load->view('include/css.php', NULL, TRUE);
-                        $data['header'] = $this->load->view('pages/header.php', NULL, TRUE);
-                        $data['book'] = $this->home_model->get_book($book);
-                        $this->load->view('pages/booking_manga.php', $data);
-                    } else redirect("home/book_list");
+                    $this->home_model->insert_request($values);
                 }
             }
         } else {
@@ -576,8 +560,55 @@ class Home extends CI_Controller {
                         'description' => $this->input->post('description'),
                         'link_cover' => 'assets/cover/'.$data['upload_data']['file_name']
                     );
+                    $startReqDay = [];
+                    $endReqDay = [];
+                    $startReqMonth = [];
+                    $endReqMonth = [];
+                    $startReqYear = [];
+                    $endReqYear = [];
+                    $dayTaken = [];  // All days taken
+                    foreach($time_taken as $request) {  // Get ReqDay
+                        array_push($startReqDay, substr($request['start_time'], 8, 2));
+                        array_push($endReqDay, substr($request['end_time'], 8, 2));
+                    }
+                    foreach($time_taken as $request) {  // Get ReqMonth
+                        array_push($startReqMonth, substr($request['start_time'], 5, 2));
+                        array_push($endReqMonth, substr($request['end_time'], 5, 2));
+                    }
+                    foreach($time_taken as $request) {  // Get ReqYear
+                        array_push($startReqYear, substr($request['start_time'], 0, 4));
+                        array_push($endReqYear, substr($request['end_time'], 0, 4));
+                    }
 
-                    $this->home_model->update_book($values);
+                    for ($i=0; $i<sizeof($startReqDay); $i++){
+                        if ($endReqDay[$i]-$startReqDay[$i] > 0 && $startReqMonth[$i] == $month && $endReqMonth[$i] == $month && $year == $startReqYear[$i] && $year == $endReqYear[$i]) {
+                            for($j=0; $j<$endReqDay[$i]-$startReqDay[$i]+1; $j++) {
+                                array_push($dayTaken, $startReqDay[$i]+$j);
+                            }
+                        }
+                        else if ($startReqMonth[$i] - $endReqMonth[$i] == -1 && $month == $endReqMonth[$i] && $year == $startReqYear[$i] && $year == $endReqYear[$i]) {
+                            for($j=0; $j<$endReqDay[$i]+1; $j++) {
+                                array_push($dayTaken, $j);
+                            }
+                        }
+                        else if ($startReqMonth[$i] - $endReqMonth[$i] == -1 && $month == $startReqMonth[$i] && $year == $startReqYear[$i] && $year == $endReqYear[$i]) {
+                            for($j=0; $j<$days-$startReqDay[$i]+1; $j++) {
+                                array_push($dayTaken, $startReqDay[$i]+$j);
+                            }
+                        }
+                        else if ($startReqMonth[$i] - $endReqMonth[$i] == 11 && $month == $startReqMonth[$i] && $year == $startReqYear[$i]) {
+                            for($j=0; $j<$days-$startReqDay[$i]+1; $j++) {
+                                array_push($dayTaken, $startReqDay[$i]+$j);
+                            }
+                        }
+                        else if ($startReqMonth[$i] - $endReqMonth[$i] == 11 && $month == $endReqMonth[$i] && $year == $endReqYear[$i]) {
+                            for($j=0; $j<$endReqDay[$i]+1; $j++) {
+                                array_push($dayTaken, $j);
+                            }
+                        }
+                    }
+                    
+                    // $this->home_model->update_book($values);
 
                     redirect("home/book_list");
                 }
