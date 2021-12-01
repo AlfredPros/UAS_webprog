@@ -417,10 +417,25 @@ class Home extends CI_Controller {
                         'start_time' => $datebook1,
                         'end_time' => $datebook2
                     );
+
     
-                    $this->home_model->insert_request($values);
+                    $result = $this->home_model->insert_request($values);
+                    if (!$result) {
+                        $temp = 'Hari telah diambil';
+                        $newdata = array(
+                            'alert'  => $temp
+                        );
+            
+                        $this->session->set_userdata($newdata);
     
-                    redirect("home/book_list");
+                        $book = $this->input->post('id_book');
+    
+                        $data['js'] = $this->load->view('include/javascript.php', NULL, TRUE);
+                        $data['css'] = $this->load->view('include/css.php', NULL, TRUE);
+                        $data['header'] = $this->load->view('pages/header.php', NULL, TRUE);
+                        $data['book'] = $this->home_model->get_book($book);
+                        $this->load->view('pages/booking_manga.php', $data);
+                    } else redirect("home/book_list");
                 }
             }
         } else {
