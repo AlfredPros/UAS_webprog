@@ -89,24 +89,61 @@ h6 > .divider:before,
 
             <tbody>
                 <?php
-                    $timestamp = strtotime('2021-12-01');
-                    $startDay = date("l", $timestamp);
-                    var_dump($startDay);
-                    $days = cal_days_in_month(CAL_GREGORIAN, 12, 2021);
-                    var_dump($days);
+                    $month = 11;
+                    $year = 2021;
+
+                    $timestamp = strtotime("$year-$month-01");
+                    $nameDay = date("l", $timestamp);
+                    switch($nameDay) {
+                        case 'Monday': {
+                            $startDay = 0;
+                            break;
+                        }
+                        case 'Tuesday': {
+                            $startDay = 1;
+                            break;
+                        }
+                        case 'Wednesday': {
+                            $startDay = 2;
+                            break;
+                        }
+                        case 'Thursday': {
+                            $startDay = 3;
+                            break;
+                        }
+                        case 'Friday': {
+                            $startDay = 4;
+                            break;
+                        }
+                        case 'Saturday': {
+                            $startDay = 5;
+                            break;
+                        }
+                        case 'Sunday': {
+                            $startDay = 6;
+                            break;
+                        }
+                    }
+                    $days = cal_days_in_month(CAL_GREGORIAN, $month, $year);
                 ?>
 
-                <?php for ($i=1; $i<$days+1; $i++) { ?>
-                    <tr>
-                        <td><?= ($i*7)+1; ?></td>
-                        <td><?= ($i*7)+2; ?></td>
-                        <td><?= ($i*7)+3; ?></td>
-                        <td><?= ($i*7)+4; ?></td>
-                        <td><?= ($i*7)+5; ?></td>
-                        <td><?= ($i*7)+6; ?></td>
-                        <td><?= ($i*7)+7; ?></td>
-                    </tr>
-                <?php }; ?>
+                <tr>
+                    <?php 
+                        for ($i=0; $i<$startDay; $i++) { 
+                            echo "<td></td>"; 
+                        } 
+
+                        for ($i=1; $i<$days+1; $i++) { 
+                            if (($i + $startDay) % 7 == 1) { 
+                                echo "<tr>"; 
+                            }
+                            echo "<td>$i</td>";
+                            if (($i + $startDay) % 7 == 0) { 
+                                echo "</tr>"; 
+                            } 
+                        }; 
+                    ?>
+                </tr>
             </tbody>
         </table>
     </div>
