@@ -13,6 +13,6 @@
 
     @font-face {
         font-family: Aller;
-        src: url("<?= base_url('assets/aller.ttf') ?>");
+        src: url("<?= base_url('assets/font/aller.ttf') ?>");
     }
 </style>
