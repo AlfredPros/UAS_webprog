@@ -133,6 +133,17 @@ class Home_model extends CI_Model {
         return $query->result_array();
     }
 
+    public function get_unapprove_book_request($values)
+    {
+        $where = [
+            'id_book' => $values['id_book'],
+            'status' => 2,
+            'id_user' => $values['id_user']
+        ];
+        $query = $this->db->query("SELECT start_time, end_time FROM request WHERE id_book = ? AND status = ? ORDER BY 1", $where);
+        return $query->result_array();
+    }
+
     public function delete_request($id_request)
     {
         $this->db->where('id_request', $id_request);
