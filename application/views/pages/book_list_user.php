@@ -28,11 +28,11 @@
             foreach(array_slice($books,0) as $book) {
         ?>
             <div class="col-md-4">
-                <a href="<?= base_url("index.php/home/book_detail?id_book=").$book['id_book'] ?>">
+                <a href="<?= base_url("index.php/home/book_detail?id_book=").$book['id_book']."&month=".date('m')."&year=".date('Y'); ?>">
                     <img src="<?= base_url($book['link_cover']) ?>">
                 </a>
                 <div class="row">
-                    <a href="<?= base_url("index.php/home/book_detail?id_book=").$book['id_book'] ?>">
+                    <a href="<?= base_url("index.php/home/book_detail?id_book=").$book['id_book']."&month=".date('m')."&year=".date('Y'); ?>">
                         <p class="text-center"><?= $book['title'] ?></p>
                     </a>
                 </div>

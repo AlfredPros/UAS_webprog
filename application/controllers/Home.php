@@ -322,6 +322,10 @@ class Home extends CI_Controller {
     {
         if (isset($_SESSION['logged_in'])) {
             $book = $this->input->get('id_book');
+            $data['month'] = $this->input->get('month');
+            $data['year'] = $this->input->get('year');
+
+            $data['requests'] = $this->home_model->get_book_request($book);
 
             $data['js'] = $this->load->view('include/javascript.php', NULL, TRUE);
             $data['css'] = $this->load->view('include/css.php', NULL, TRUE);

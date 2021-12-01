@@ -126,7 +126,7 @@ class Home_model extends CI_Model {
     public function get_book_request($value) {
         $where = [
             'id_book' => $value,
-            'status' => 0
+            'status' => 1
         ];
         $query = $this->db->query("SELECT start_time, end_time FROM request WHERE id_book = ? AND status = ? ORDER BY 1", $where);
         return $query->result_array();

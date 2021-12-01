@@ -90,10 +90,12 @@
 
             <tbody>
                 <?php
-                    $month = 12;
-                    $year = 2021;
+                    if (!isset($month) && !isset($year)) {
+                        $month = 12;
+                        $year = 2012;
+                    }
                     echo "Month: $month<br>Year: $year";
-                    
+
                     $timestamp = strtotime("$year-$month-01");
                     $nameDay = date("l", $timestamp);
                     switch($nameDay) {
@@ -127,6 +129,38 @@
                         }
                     }
                     $days = cal_days_in_month(CAL_GREGORIAN, $month, $year);
+
+                    // Check if day is taken
+                    $startReqDay = [];
+                    $endReqDay = [];
+                    $dayTaken = [];
+                    foreach($requests as $request) {
+                        array_push($startReqDay, substr($request['start_time'], 8, 2));
+                        array_push($endReqDay, substr($request['end_time'], 8, 2));
+                    }
+
+                    for ($i=0; $i<sizeof($startReqDay); $i++){
+                        if ($endReqDay[$i]-$startReqDay[$i] > 0) {
+                            for($j=0; $j<$endReqDay[$i]-$startReqDay[$i]+1; $j++) {
+                                array_push($dayTaken, $startReqDay[$i]+$j);
+                            }
+                        }
+                        else {
+                            for($j=0; $j<$days-$startReqDay[$i]+1; $j++) {
+                                array_push($dayTaken, $startReqDay[$i]+$j);
+                            }
+                        }
+                        
+                    }
+                    
+                    echo "<br>";
+                    var_dump($startReqDay);
+                    echo "<br>";
+                    var_dump($endReqDay);
+                    echo "<br>";
+                    var_dump($dayTaken);
+
+                    
                 ?>
 
                 <tr>
@@ -139,7 +173,14 @@
                             if (($i + $startDay) % 7 == 1) { 
                                 echo "<tr>"; 
                             }
-                            echo "<td>$i</td>";
+
+                            if (in_array($i, $dayTaken)) {
+                                echo "<td class='table-danger'>$i</td>";
+                            }
+                            else {
+                                echo "<td>$i</td>";
+                            }
+                            
                             if (($i + $startDay) % 7 == 0) { 
                                 echo "</tr>"; 
                             } 
