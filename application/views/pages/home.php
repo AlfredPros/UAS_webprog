@@ -8,6 +8,7 @@
     ?>
 
     <title>MangaBook</title>
+    <link rel="icon" href="<?= base_url('assets/images/ThumbnailLogo.png') ?>">
 
     <style>
         html,
@@ -45,7 +46,10 @@
         }
 
         body {
-            background-image: url("<?= base_url('assets/images/LandingBackground.png'); ?>");
+            background-image: url("<?= base_url('assets/images/LandingBackground.png') ?>");
+            background-size: cover;
+            background-repeat: no-repeat;
+            background-position: center;
         }
 
         .box {
@@ -56,10 +60,10 @@
 </head>
 
 <body>
-    <div class="container col-sm-3 center">
-        <div class="box row text-center" style="color: #C90000; padding: 38px">
+    <div class="container col-lg-3 center">
+        <div class="box row text-center" style="color: #C90000; padding: 28px">
             <h2 style="font-weight: 900;">Selamat Datang di</h2>
-            <img src="<?= base_url('assets/images/MangaBookLogoColor.png') ?>" alt="">
+            <img src="<?= base_url('assets/images/MangaBookLogoColor.png') ?>" alt="" draggable="false">
             <a href="<?= base_url('index.php/home/register') ?>" class="btn red-btn" role="button" style="margin-top: 26px;">Register</a>
             <a href="<?= base_url('index.php/home/login') ?>" class="btn red-outline-btn" role="button" style="margin-top: 6px;">Login</a>
             <hr style="margin-top:26px">
