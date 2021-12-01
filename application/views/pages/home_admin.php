@@ -11,15 +11,6 @@
     <link rel="icon" href="<?= base_url('assets/images/ThumbnailLogo.png') ?>">
 
     <style>
-        /*body {
-            background-image: url("<?= base_url('assets/images/LandingBackgroundLow.png') ?>");
-            background-size: cover;
-            background-repeat: no-repeat;
-            background-position: center;
-            background-attachment: fixed;
-            color: #C90000;
-        }*/
-
         .red-btn {
             background-color: #C90000;
             color: white;
@@ -62,8 +53,8 @@
     <div class="container-fluid center home-picture">
         <div class="row">
             <div class="col text-center">
-                <img src="<?= base_url($_SESSION['link_profile']) ?>" alt="" style="height: 200px; width: 200px; border-radius: 100%; object-fit: cover; margin-bottom: 8px">
-                <h1>Hello, <?= $_SESSION['name']; ?>!</h1>
+                <img src="<?= base_url($_SESSION['link_profile']) ?>" alt="" style="height: 200px; width: 200px; border-radius: 100%; object-fit: cover; margin-bottom: 8px; box-shadow: 0 0 50px #FFFFFF;">
+                <h1 style="text-shadow: 0 0 10px #FFFFFF;">Hello, <?= $_SESSION['name']; ?>!</h1>
             </div>
         </div>
 

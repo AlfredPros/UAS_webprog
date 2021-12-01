@@ -44,7 +44,7 @@
 	echo $header;
 	?>
 
-	<div class="container-fluid center" style="padding-top:15px">
+	<div class="container-fluid" style="margin-top:28px">
 		<div class="row">
 			<h1 class="text-center">
 				Add Manga
