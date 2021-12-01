@@ -109,7 +109,7 @@
 
 			<br>
 			<button type="submit" class="btn red-btn" style="margin-right:10px">Edit User</button>
-			<a href="<?= base_url('index.php/home') ?>" class="btn red-outline-btn" role="button">Cancel</a>
+			<a href="<?= base_url('index.php/home/user_list') ?>" class="btn red-outline-btn" role="button">Cancel</a>
 		</form>
 	</div>
 	<br>
