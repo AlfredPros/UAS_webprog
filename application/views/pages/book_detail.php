@@ -77,18 +77,26 @@ h6 > .divider:before,
         <table class="table table-striped table-hover-cells" id="tableProduct">
             <thead>
                 <tr>
-                    <th>Su</th>
                     <th>Mo</th>
                     <th>Tu</th>
                     <th>We</th>
                     <th>Th</th>
                     <th>Fr</th>
                     <th>Sa</th>
+                    <th>Su</th>
                 </tr>
             </thead>
 
             <tbody>
-                <?php for ($i=0; $i<5; $i++) { ?>
+                <?php
+                    $timestamp = strtotime('2021-12-01');
+                    $startDay = date("l", $timestamp);
+                    var_dump($startDay);
+                    $days = cal_days_in_month(CAL_GREGORIAN, 12, 2021);
+                    var_dump($days);
+                ?>
+
+                <?php for ($i=1; $i<$days+1; $i++) { ?>
                     <tr>
                         <td><?= ($i*7)+1; ?></td>
                         <td><?= ($i*7)+2; ?></td>
