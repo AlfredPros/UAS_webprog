@@ -52,9 +52,8 @@
 				</h1>
 			</div>
 		</div>
-		<hr>
 	</div>
-
+	<hr>
 	<div class="container text-center" style="margin-top: 35px;">
 		<form class="col-md-4 offset-md-4" action="<?= base_url("index.php/home/do_edit_user") ?>" method="POST" enctype="multipart/form-data">
 			<div class="mb-3">

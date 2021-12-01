@@ -47,7 +47,6 @@
     <div class="container-fluid" style="margin-top:28px">
         <div class="row">
             <h1 class="text-center">Users List</h1>
-            <hr>
         </div>
         <!--<div class="row">
             <img src="<?= base_url("assets/images/screenshot0032.png") ?>">
@@ -62,6 +61,7 @@
         </div>
         <br>-->
     </div>
+    <hr>
     <div class="container" style="padding-top:25px; padding-bottom:30px;">
         <table class="table table-striped table-hover" id="tableProduct">
             <thead class="text-center" style="color: #C90000;">

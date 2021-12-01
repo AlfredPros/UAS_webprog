@@ -47,7 +47,6 @@
     <div class="container-fluid" style="margin-top:28px">
         <div class="row">
             <h1 class="text-center">Manga List</h1>
-            <hr>
         </div>
         <!--<div class="row">
             <img src="<?= base_url("assets/images/screenshot0032.png") ?>">
@@ -61,7 +60,7 @@
         </div>
         <br>-->
     </div>
-
+    <hr>
     <div class="container" style="padding-top:25px; padding-bottom:30px">
         <div class="col" style="margin-bottom: 2rem; text-align:right;">
             <a class="btn red-btn" role="button" href="<?= base_url('index.php/home/add_book') ?>">➕</a>
