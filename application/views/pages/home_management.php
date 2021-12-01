@@ -65,14 +65,14 @@
                 <div class="card" style="width: 18rem; display:inline-block; margin: 10px;">
                     <img src=" <?= base_url('assets/images/Manga.png') ?>" class="card-img-top" alt="" style="width: 100%; height: 250px; object-fit: cover" draggable="false">
                     <div class="card-body">
-                        <h5 class="card-title" style="color: #C90000;">Manga Listing</h5>
+                        <h5 class="card-title" style="color: #C90000;">Manga List</h5>
                         <a href="<?= base_url("index.php/home/book_list") ?>" class="btn red-btn" role="button">Go To Link</a>
                     </div>
                 </div>
                 <div class="card" style="width: 18rem; display:inline-block; margin: 10px;">
                     <img src=" <?= base_url('assets/images/Request.png') ?>" class="card-img-top" alt="" style="width: 100%; height: 250px; object-fit: cover" draggable="false">
                     <div class="card-body">
-                        <h5 class="card-title" style="color: #C90000;">Requests Listing</h5>
+                        <h5 class="card-title" style="color: #C90000;">Requests List</h5>
                         <a href="<?= base_url("index.php/home/request_list") ?>" class="btn red-btn" role="button">Go To Link</a>
                     </div>
                 </div>
