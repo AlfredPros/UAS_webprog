@@ -32,6 +32,76 @@
 
         <br>
     </div>
+
+    <style>
+        .table-hover-cells > tbody > tr > th:hover,
+.table-hover-cells > tbody > tr > td:hover {
+  background-color: #f5f5f5;
+}
+
+.table-hover-cells > tbody > tr > th.active:hover,
+.table-hover-cells > tbody > tr > td.active:hover,
+.table-hover-cells > tbody > tr.active > th:hover,
+.table-hover-cells > tbody > tr.active > td:hover {
+  background-color: #e8e8e8;
+}
+
+.table-hover.table-hover-cells > tbody > tr:hover > th:hover,
+.table-hover.table-hover-cells > tbody > tr:hover > td:hover {
+  background-color: #e8e8e8;
+}
+
+.table-hover.table-hover-cells > tbody > tr.active:hover > th:hover,
+.table-hover.table-hover-cells > tbody > tr.active:hover > td:hover {
+  background-color: #d8d8d8;
+}
+
+h1 > .divider:before,
+h2 > .divider:before,
+h3 > .divider:before,
+h4 > .divider:before,
+h5 > .divider:before,
+h6 > .divider:before,
+.h1 > .divider:before,
+.h2 > .divider:before,
+.h3 > .divider:before,
+.h4 > .divider:before,
+.h5 > .divider:before,
+.h6 > .divider:before {
+  color: #777;
+  content: "\0223E\0020";
+}
+    </style>
+
+    <div class="container">
+        <table class="table table-striped table-hover-cells" id="tableProduct">
+            <thead>
+                <tr>
+                    <th>Su</th>
+                    <th>Mo</th>
+                    <th>Tu</th>
+                    <th>We</th>
+                    <th>Th</th>
+                    <th>Fr</th>
+                    <th>Sa</th>
+                </tr>
+            </thead>
+
+            <tbody>
+                <?php for ($i=0; $i<5; $i++) { ?>
+                    <tr>
+                        <td><?= ($i*7)+1; ?></td>
+                        <td><?= ($i*7)+2; ?></td>
+                        <td><?= ($i*7)+3; ?></td>
+                        <td><?= ($i*7)+4; ?></td>
+                        <td><?= ($i*7)+5; ?></td>
+                        <td><?= ($i*7)+6; ?></td>
+                        <td><?= ($i*7)+7; ?></td>
+                    </tr>
+                <?php }; ?>
+            </tbody>
+        </table>
+    </div>
     
     <!--
     <div class="container" style="padding-top:25px; padding-bottom:30px">
