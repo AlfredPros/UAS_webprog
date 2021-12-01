@@ -95,7 +95,9 @@
 				<label for="file-input">
 					<img for="file" id="output" width="200" src="<?= base_url($book[0]['link_cover']) ?>" />
 				</label>
-
+				<?php if (isset($error)) { ?>
+                        <div style="color:red"><?= $error['error']; ?></div>
+                    <?php } ?>
 				<input id="file-input" accept="image/*" type="file" style="cursor: pointer;" onchange="loadFile(event)" name="link_cover" hidden />
 			</div>
 
