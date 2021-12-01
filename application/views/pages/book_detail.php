@@ -135,14 +135,20 @@
                     $endReqDay = [];
                     $startReqMonth = [];
                     $endReqMonth = [];
+                    $startReqYear = [];
+                    $endReqYear = [];
                     $dayTaken = [];  // All days taken
-                    foreach($requests as $request) {
+                    foreach($requests as $request) {  // Get ReqDay
                         array_push($startReqDay, substr($request['start_time'], 8, 2));
                         array_push($endReqDay, substr($request['end_time'], 8, 2));
                     }
-                    foreach($requests as $request) {
+                    foreach($requests as $request) {  // Get ReqMonth
                         array_push($startReqMonth, substr($request['start_time'], 5, 2));
                         array_push($endReqMonth, substr($request['end_time'], 5, 2));
+                    }
+                    foreach($requests as $request) {  // Get ReqYear
+                        array_push($startReqYear, substr($request['start_time'], 0, 4));
+                        array_push($endReqYear, substr($request['end_time'], 0, 4));
                     }
 
                     for ($i=0; $i<sizeof($startReqDay); $i++){
@@ -174,15 +180,19 @@
                         
                     }
                     
-                    echo "<br>";
+                    echo "<br><br>Start Year:<br>";
+                    var_dump($startReqYear);
+                    echo "<br>End Year:<br>";
+                    var_dump($endReqYear);
+                    echo "<br>Start Month:<br>";
                     var_dump($startReqMonth);
-                    echo "<br>";
+                    echo "<br>End Monthr:<br>";
                     var_dump($endReqMonth);
-                    echo "<br>";
+                    echo "<br>Start Day:<br>";
                     var_dump($startReqDay);
-                    echo "<br>";
+                    echo "<br>End Day:<br>";
                     var_dump($endReqDay);
-                    echo "<br>";
+                    echo "<br><br>";
                     var_dump($dayTaken);
 
                     
