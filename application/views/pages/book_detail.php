@@ -35,45 +35,46 @@
 
     <style>
         .table-hover-cells > tbody > tr > th:hover,
-.table-hover-cells > tbody > tr > td:hover {
-  background-color: #f5f5f5;
-}
+        .table-hover-cells > tbody > tr > td:hover {
+        background-color: #f5f5f5;
+        }
 
-.table-hover-cells > tbody > tr > th.active:hover,
-.table-hover-cells > tbody > tr > td.active:hover,
-.table-hover-cells > tbody > tr.active > th:hover,
-.table-hover-cells > tbody > tr.active > td:hover {
-  background-color: #e8e8e8;
-}
+        .table-hover-cells > tbody > tr > th.active:hover,
+        .table-hover-cells > tbody > tr > td.active:hover,
+        .table-hover-cells > tbody > tr.active > th:hover,
+        .table-hover-cells > tbody > tr.active > td:hover {
+        background-color: #e8e8e8;
+        }
 
-.table-hover.table-hover-cells > tbody > tr:hover > th:hover,
-.table-hover.table-hover-cells > tbody > tr:hover > td:hover {
-  background-color: #e8e8e8;
-}
+        .table-hover.table-hover-cells > tbody > tr:hover > th:hover,
+        .table-hover.table-hover-cells > tbody > tr:hover > td:hover {
+        background-color: #e8e8e8;
+        }
 
-.table-hover.table-hover-cells > tbody > tr.active:hover > th:hover,
-.table-hover.table-hover-cells > tbody > tr.active:hover > td:hover {
-  background-color: #d8d8d8;
-}
+        .table-hover.table-hover-cells > tbody > tr.active:hover > th:hover,
+        .table-hover.table-hover-cells > tbody > tr.active:hover > td:hover {
+        background-color: #d8d8d8;
+        }
 
-h1 > .divider:before,
-h2 > .divider:before,
-h3 > .divider:before,
-h4 > .divider:before,
-h5 > .divider:before,
-h6 > .divider:before,
-.h1 > .divider:before,
-.h2 > .divider:before,
-.h3 > .divider:before,
-.h4 > .divider:before,
-.h5 > .divider:before,
-.h6 > .divider:before {
-  color: #777;
-  content: "\0223E\0020";
-}
+        h1 > .divider:before,
+        h2 > .divider:before,
+        h3 > .divider:before,
+        h4 > .divider:before,
+        h5 > .divider:before,
+        h6 > .divider:before,
+        .h1 > .divider:before,
+        .h2 > .divider:before,
+        .h3 > .divider:before,
+        .h4 > .divider:before,
+        .h5 > .divider:before,
+        .h6 > .divider:before {
+        color: #777;
+        content: "\0223E\0020";
+        }
     </style>
 
     <div class="container">
+        <h3>Waktu ketersediaan manga:</h3>
         <table class="table table-striped table-hover-cells" id="tableProduct">
             <thead>
                 <tr>
@@ -89,7 +90,7 @@ h6 > .divider:before,
 
             <tbody>
                 <?php
-                    $month = 11;
+                    $month = 12;
                     $year = 2021;
 
                     $timestamp = strtotime("$year-$month-01");
@@ -125,6 +126,8 @@ h6 > .divider:before,
                         }
                     }
                     $days = cal_days_in_month(CAL_GREGORIAN, $month, $year);
+
+                    echo "Month: $month<br>Year: $year";
                 ?>
 
                 <tr>
@@ -147,6 +150,8 @@ h6 > .divider:before,
             </tbody>
         </table>
     </div>
+
+    <br>
     
     <!--
     <div class="container" style="padding-top:25px; padding-bottom:30px">
