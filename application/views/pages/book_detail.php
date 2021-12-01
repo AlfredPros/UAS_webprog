@@ -75,16 +75,33 @@
 
     <div class="container">
         <h3>Waktu ketersediaan manga:</h3>
+        <div class="dropdown">
+            <a class="btn btn-secondary dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-bs-toggle="dropdown" aria-expanded="false">
+                <?= 'Bulan: '.$month.' Tahun: '. $year; ?>
+            </a>
+
+            <ul class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+                <?php 
+                    for ($i=0; $i<2; $i++) {
+                        for ($j=0; $j<12; $j++) { 
+                            if ($i == 0 && $j < date('m')-1) {;} else { ?>
+                            <li><a class='dropdown-item' href='<?= base_url("index.php/home/book_detail?id_book=".$book[0]["id_book"]."&month=".($j+1)."&year=".($i+2021)); ?>'>Bulan: <?= $j+1 ?> Tahun: <?= $i+2021 ?></a></li>
+                        <?php
+                        } }
+                    }
+                ?>
+            </ul>
+        </div>
         <table class="table table-striped table-hover-cells" id="tableProduct">
             <thead>
                 <tr>
-                    <th>Mo</th>
-                    <th>Tu</th>
-                    <th>We</th>
-                    <th>Th</th>
-                    <th>Fr</th>
-                    <th>Sa</th>
-                    <th>Su</th>
+                    <th>Mon</th>
+                    <th>Tue</th>
+                    <th>Wed</th>
+                    <th>Thu</th>
+                    <th>Fri</th>
+                    <th>Sat</th>
+                    <th>Sun</th>
                 </tr>
             </thead>
 
@@ -178,27 +195,8 @@
                             }
                         }
                     }
-                    
-                    // Debugging
-                    /*
-                    echo "<br><br>";
-                    var_dump($startReqYear);
-                    echo "<br>";
-                    var_dump($endReqYear);
-                    echo "<br>";
-                    var_dump($startReqMonth);
-                    echo "<br>";
-                    var_dump($endReqMonth);
-                    echo "<br>";
-                    var_dump($startReqDay);
-                    echo "<br>";
-                    var_dump($endReqDay);
-                    echo "<br><br>";
-                    var_dump($dayTaken);
-                    */
 
                     // Check if day is requested by the user
-                    /*
                     $startReqDay = [];
                     $endReqDay = [];
                     $startReqMonth = [];
@@ -206,17 +204,17 @@
                     $startReqYear = [];
                     $endReqYear = [];
                     $dayReq = [];  // All days taken
-                    foreach($requests as $request) {  // Get ReqDay
-                        array_push($startReqDay, substr($requested['start_time'], 8, 2));
-                        array_push($endReqDay, substr($requested['end_time'], 8, 2));
+                    foreach($requested as $request) {  // Get ReqDay
+                        array_push($startReqDay, substr($request['start_time'], 8, 2));
+                        array_push($endReqDay, substr($request['end_time'], 8, 2));
                     }
-                    foreach($requests as $request) {  // Get ReqMonth
-                        array_push($startReqMonth, substr($requested['start_time'], 5, 2));
-                        array_push($endReqMonth, substr($requested['end_time'], 5, 2));
+                    foreach($requested as $request) {  // Get ReqMonth
+                        array_push($startReqMonth, substr($request['start_time'], 5, 2));
+                        array_push($endReqMonth, substr($request['end_time'], 5, 2));
                     }
-                    foreach($requests as $request) {  // Get ReqYear
-                        array_push($startReqYear, substr($requested['start_time'], 0, 4));
-                        array_push($endReqYear, substr($requested['end_time'], 0, 4));
+                    foreach($requested as $request) {  // Get ReqYear
+                        array_push($startReqYear, substr($request['start_time'], 0, 4));
+                        array_push($endReqYear, substr($request['end_time'], 0, 4));
                     }
 
                     for ($i=0; $i<sizeof($startReqDay); $i++){
@@ -246,7 +244,6 @@
                             }
                         }
                     }
-                    */
                 ?>
 
                 <tr>
@@ -263,11 +260,9 @@
                             if (in_array($i, $dayTaken)) {
                                 echo "<td class='table-danger'>$i</td>";
                             }
-                            /*
                             else if (in_array($i, $dayReq)) {
-                                echo "<td class='table-warning'>$i</td>";
+                                echo "<td class='table-info'>$i</td>";
                             }
-                            */
                             else {
                                 echo "<td>$i</td>";
                             }
@@ -280,8 +275,11 @@
                 </tr>
             </tbody>
         </table>
+        <p><span style="color:#FF4F63">Red</span> = Taken</p>
+        <p><span style="color:#009EAF">Biru Hatsune Miku</span> = Requested by you</p>
     </div>
 
+    <br>
     <br>
     
     <!--

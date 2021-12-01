@@ -325,9 +325,13 @@ class Home extends CI_Controller {
             $data['month'] = $this->input->get('month');
             $data['year'] = $this->input->get('year');
 
+            $values = array(
+                'id_book' => $book,
+                'id_user' => $_SESSION['id']
+            );
+
             $data['requests'] = $this->home_model->get_book_request($book);
-            //$data['requested'] = $this->home_model->get_user_unapproved_request($_SESSION['id']);
-            //var_dump($data['requested']);
+            $data['requested'] = $this->home_model->get_unapprove_book_request($values);
 
             $data['js'] = $this->load->view('include/javascript.php', NULL, TRUE);
             $data['css'] = $this->load->view('include/css.php', NULL, TRUE);
