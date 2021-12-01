@@ -92,7 +92,8 @@
                 <?php
                     $month = 12;
                     $year = 2021;
-
+                    echo "Month: $month<br>Year: $year";
+                    
                     $timestamp = strtotime("$year-$month-01");
                     $nameDay = date("l", $timestamp);
                     switch($nameDay) {
@@ -126,8 +127,6 @@
                         }
                     }
                     $days = cal_days_in_month(CAL_GREGORIAN, $month, $year);
-
-                    echo "Month: $month<br>Year: $year";
                 ?>
 
                 <tr>
