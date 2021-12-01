@@ -32,6 +32,125 @@
 
         <br>
     </div>
+
+    <style>
+        .table-hover-cells > tbody > tr > th:hover,
+        .table-hover-cells > tbody > tr > td:hover {
+        background-color: #f5f5f5;
+        }
+
+        .table-hover-cells > tbody > tr > th.active:hover,
+        .table-hover-cells > tbody > tr > td.active:hover,
+        .table-hover-cells > tbody > tr.active > th:hover,
+        .table-hover-cells > tbody > tr.active > td:hover {
+        background-color: #e8e8e8;
+        }
+
+        .table-hover.table-hover-cells > tbody > tr:hover > th:hover,
+        .table-hover.table-hover-cells > tbody > tr:hover > td:hover {
+        background-color: #e8e8e8;
+        }
+
+        .table-hover.table-hover-cells > tbody > tr.active:hover > th:hover,
+        .table-hover.table-hover-cells > tbody > tr.active:hover > td:hover {
+        background-color: #d8d8d8;
+        }
+
+        h1 > .divider:before,
+        h2 > .divider:before,
+        h3 > .divider:before,
+        h4 > .divider:before,
+        h5 > .divider:before,
+        h6 > .divider:before,
+        .h1 > .divider:before,
+        .h2 > .divider:before,
+        .h3 > .divider:before,
+        .h4 > .divider:before,
+        .h5 > .divider:before,
+        .h6 > .divider:before {
+        color: #777;
+        content: "\0223E\0020";
+        }
+    </style>
+
+    <div class="container">
+        <h3>Waktu ketersediaan manga:</h3>
+        <table class="table table-striped table-hover-cells" id="tableProduct">
+            <thead>
+                <tr>
+                    <th>Mo</th>
+                    <th>Tu</th>
+                    <th>We</th>
+                    <th>Th</th>
+                    <th>Fr</th>
+                    <th>Sa</th>
+                    <th>Su</th>
+                </tr>
+            </thead>
+
+            <tbody>
+                <?php
+                    $month = 12;
+                    $year = 2021;
+                    echo "Month: $month<br>Year: $year";
+                    
+                    $timestamp = strtotime("$year-$month-01");
+                    $nameDay = date("l", $timestamp);
+                    switch($nameDay) {
+                        case 'Monday': {
+                            $startDay = 0;
+                            break;
+                        }
+                        case 'Tuesday': {
+                            $startDay = 1;
+                            break;
+                        }
+                        case 'Wednesday': {
+                            $startDay = 2;
+                            break;
+                        }
+                        case 'Thursday': {
+                            $startDay = 3;
+                            break;
+                        }
+                        case 'Friday': {
+                            $startDay = 4;
+                            break;
+                        }
+                        case 'Saturday': {
+                            $startDay = 5;
+                            break;
+                        }
+                        case 'Sunday': {
+                            $startDay = 6;
+                            break;
+                        }
+                    }
+                    $days = cal_days_in_month(CAL_GREGORIAN, $month, $year);
+                ?>
+
+                <tr>
+                    <?php 
+                        for ($i=0; $i<$startDay; $i++) { 
+                            echo "<td></td>"; 
+                        } 
+
+                        for ($i=1; $i<$days+1; $i++) { 
+                            if (($i + $startDay) % 7 == 1) { 
+                                echo "<tr>"; 
+                            }
+                            echo "<td>$i</td>";
+                            if (($i + $startDay) % 7 == 0) { 
+                                echo "</tr>"; 
+                            } 
+                        }; 
+                    ?>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <br>
     
     <!--
     <div class="container" style="padding-top:25px; padding-bottom:30px">

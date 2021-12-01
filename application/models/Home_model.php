@@ -124,9 +124,12 @@ class Home_model extends CI_Model {
     }
 
     public function get_book_request($value) {
-        $this->db->where('id_book', $value);
-        $this->db->order_by('id_book', 'ASC');
-        $this->db->get('request');
+        $where = [
+            'id_book' => $value,
+            'status' => 0
+        ];
+        $query = $this->db->query("SELECT start_time, end_time FROM request WHERE id_book = ? AND status = ? ORDER BY 1", $where);
+        return $query->result_array();
     }
 
     public function delete_request($id_request)
