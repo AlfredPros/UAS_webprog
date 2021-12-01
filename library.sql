@@ -3,9 +3,9 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Nov 29, 2021 at 07:55 PM
+-- Generation Time: Dec 01, 2021 at 05:33 PM
 -- Server version: 10.4.20-MariaDB
--- PHP Version: 8.0.9
+-- PHP Version: 7.4.22
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -20,6 +20,47 @@ SET time_zone = "+00:00";
 --
 -- Database: `library`
 --
+
+DELIMITER $$
+--
+-- Functions
+--
+CREATE DEFINER=`root`@`localhost` FUNCTION `day_taken` (`id` INT, `start_date` DATE, `end_date` DATE) RETURNS TINYINT(1) BEGIN
+    DECLARE finished INTEGER DEFAULT 0;
+    declare temp1 DATE;
+    declare temp2 date;
+    declare ans BOOLEAN;
+
+
+DEClARE curReq 
+CURSOR FOR 
+SELECT start_time, end_time FROM request WHERE status = 1 AND id_book = id;
+
+
+DECLARE CONTINUE HANDLER 
+        FOR NOT FOUND SET finished = 1;
+    
+    SET ans = false;
+
+    OPEN curReq;
+         check_day: LOOP
+            FETCH curReq INTO temp1, temp2;
+            IF finished = 1 THEN 
+                LEAVE check_day;
+            END IF;
+            if (start_date >= temp1 AND start_date <= temp2) OR (end_date >= temp1 AND end_date <= temp2) then
+              SET ans = true;
+              LEAVE check_day;
+            end if;
+            SET temp1 = '';
+            SET temp2 = '';
+    END LOOP check_day;
+    CLOSE curReq;
+
+    RETURN ans;
+END$$
+
+DELIMITER ;
 
 -- --------------------------------------------------------
 
@@ -68,7 +109,16 @@ CREATE TABLE `request` (
 --
 
 INSERT INTO `request` (`id_request`, `id_user`, `id_book`, `start_time`, `end_time`, `status`) VALUES
-(2, 6, 7, '2021-11-02', '2021-11-07', '2');
+(2, 6, 7, '2021-11-02', '2021-11-07', '1'),
+(3, 6, 9, '2021-12-01', '2021-12-03', '1'),
+(4, 6, 2, '2021-12-04', '2021-12-07', '2'),
+(7, 6, 5, '2021-12-01', '2021-12-04', '2'),
+(9, 6, 7, '2021-11-02', '2021-11-07', '2'),
+(10, 6, 7, '2021-11-02', '2021-11-07', '2'),
+(11, 6, 7, '2021-11-08', '2021-11-14', '2'),
+(12, 6, 7, '2021-11-08', '2021-11-14', '2'),
+(13, 6, 7, '2021-11-09', '2021-11-12', '2'),
+(14, 6, 7, '2021-11-08', '2021-11-12', '2');
 
 -- --------------------------------------------------------
 
@@ -132,7 +182,7 @@ ALTER TABLE `list_book`
 -- AUTO_INCREMENT for table `request`
 --
 ALTER TABLE `request`
-  MODIFY `id_request` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id_request` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=15;
 
 --
 -- AUTO_INCREMENT for table `user`
