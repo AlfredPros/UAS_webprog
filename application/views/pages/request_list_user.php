@@ -68,9 +68,6 @@
     <br>-->
 
     <div class="container" style="padding-top:25px; padding-bottom:30px">
-        <div class="col" style="margin-bottom: 2rem; text-align: right;">
-            <a class="btn red-btn" role="button" href="<?= base_url('index.php/home/add_request') ?>">➕</a>
-        </div>
         <table class="table table-striped table-hover" id="tableProduct">
             <thead class="text-center" style="color: #C90000;">
                 <tr>

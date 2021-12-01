@@ -325,6 +325,7 @@ class Home extends CI_Controller {
             $data['month'] = $this->input->get('month');
             $data['year'] = $this->input->get('year');
 
+            $data['requests'] = $this->home_model->get_book_request($book);
             $values = array(
                 'id_book' => $book,
                 'id_user' => $_SESSION['id']
@@ -417,15 +418,47 @@ class Home extends CI_Controller {
                     $data['book'] = $this->home_model->get_book($book);
                     $this->load->view('pages/booking_manga.php', $data);
                 } else {
+                    $flag = true;
                     $values = array(
                         'id_book' => $this->input->post('id_book'),
                         'id_user' => $this->input->post('id_user'),
                         'start_time' => $datebook1,
                         'end_time' => $datebook2
                     );
-                    // Validasi hari 
+                    $time_taken = $this->home_model->get_book_request($values['id_book']);
+                    $blacklist = [];
+                    foreach ($time_taken as $time) {
+                        array_push($blacklist, $this->createDateRangeArray($time['start_time'], $time['end_time']));
+                    }
 
-                    $this->home_model->insert_request($values);
+                    $request_days = $this->createDateRangeArray($datebook1, $datebook2);
+                    foreach ($request_days as $day) {
+                        foreach ($blacklist as $bl) {
+                            if (in_array($day, $bl)) {
+                                $flag =false;
+                                break;
+                            }
+                        }
+                    }
+                    if ($flag) {
+                        $this->home_model->insert_request($values);
+                        redirect("home/book_list");
+                    } else {
+                        
+                        $newdata = array(
+                            'alert'  => "Date has been taken<br>Please select another date"
+                        );
+            
+                        $this->session->set_userdata($newdata);
+    
+                        $book = $this->input->post('id_book');
+    
+                        $data['js'] = $this->load->view('include/javascript.php', NULL, TRUE);
+                        $data['css'] = $this->load->view('include/css.php', NULL, TRUE);
+                        $data['header'] = $this->load->view('pages/header.php', NULL, TRUE);
+                        $data['book'] = $this->home_model->get_book($book);
+                        $this->load->view('pages/booking_manga.php', $data);
+                    }
                 }
             }
         } else {
@@ -560,55 +593,8 @@ class Home extends CI_Controller {
                         'description' => $this->input->post('description'),
                         'link_cover' => 'assets/cover/'.$data['upload_data']['file_name']
                     );
-                    $startReqDay = [];
-                    $endReqDay = [];
-                    $startReqMonth = [];
-                    $endReqMonth = [];
-                    $startReqYear = [];
-                    $endReqYear = [];
-                    $dayTaken = [];  // All days taken
-                    foreach($time_taken as $request) {  // Get ReqDay
-                        array_push($startReqDay, substr($request['start_time'], 8, 2));
-                        array_push($endReqDay, substr($request['end_time'], 8, 2));
-                    }
-                    foreach($time_taken as $request) {  // Get ReqMonth
-                        array_push($startReqMonth, substr($request['start_time'], 5, 2));
-                        array_push($endReqMonth, substr($request['end_time'], 5, 2));
-                    }
-                    foreach($time_taken as $request) {  // Get ReqYear
-                        array_push($startReqYear, substr($request['start_time'], 0, 4));
-                        array_push($endReqYear, substr($request['end_time'], 0, 4));
-                    }
 
-                    for ($i=0; $i<sizeof($startReqDay); $i++){
-                        if ($endReqDay[$i]-$startReqDay[$i] > 0 && $startReqMonth[$i] == $month && $endReqMonth[$i] == $month && $year == $startReqYear[$i] && $year == $endReqYear[$i]) {
-                            for($j=0; $j<$endReqDay[$i]-$startReqDay[$i]+1; $j++) {
-                                array_push($dayTaken, $startReqDay[$i]+$j);
-                            }
-                        }
-                        else if ($startReqMonth[$i] - $endReqMonth[$i] == -1 && $month == $endReqMonth[$i] && $year == $startReqYear[$i] && $year == $endReqYear[$i]) {
-                            for($j=0; $j<$endReqDay[$i]+1; $j++) {
-                                array_push($dayTaken, $j);
-                            }
-                        }
-                        else if ($startReqMonth[$i] - $endReqMonth[$i] == -1 && $month == $startReqMonth[$i] && $year == $startReqYear[$i] && $year == $endReqYear[$i]) {
-                            for($j=0; $j<$days-$startReqDay[$i]+1; $j++) {
-                                array_push($dayTaken, $startReqDay[$i]+$j);
-                            }
-                        }
-                        else if ($startReqMonth[$i] - $endReqMonth[$i] == 11 && $month == $startReqMonth[$i] && $year == $startReqYear[$i]) {
-                            for($j=0; $j<$days-$startReqDay[$i]+1; $j++) {
-                                array_push($dayTaken, $startReqDay[$i]+$j);
-                            }
-                        }
-                        else if ($startReqMonth[$i] - $endReqMonth[$i] == 11 && $month == $endReqMonth[$i] && $year == $endReqYear[$i]) {
-                            for($j=0; $j<$endReqDay[$i]+1; $j++) {
-                                array_push($dayTaken, $j);
-                            }
-                        }
-                    }
-                    
-                    // $this->home_model->update_book($values);
+                    $this->home_model->update_book($values);
 
                     redirect("home/book_list");
                 }
@@ -736,6 +722,29 @@ class Home extends CI_Controller {
         else {
             $this->error404();
         }
+    }
+
+    function createDateRangeArray($strDateFrom,$strDateTo)
+    {
+        // takes two dates formatted as YYYY-MM-DD and creates an
+        // inclusive array of the dates between the from and to dates.
+
+        // could test validity of dates here but I'm already doing
+        // that in the main script
+
+        $aryRange = [];
+
+        $iDateFrom = mktime(1, 0, 0, substr($strDateFrom, 5, 2), substr($strDateFrom, 8, 2), substr($strDateFrom, 0, 4));
+        $iDateTo = mktime(1, 0, 0, substr($strDateTo, 5, 2), substr($strDateTo, 8, 2), substr($strDateTo, 0, 4));
+
+        if ($iDateTo >= $iDateFrom) {
+            array_push($aryRange, date('Y-m-d', $iDateFrom)); // first entry
+            while ($iDateFrom<$iDateTo) {
+                $iDateFrom += 86400; // add 24 hours
+                array_push($aryRange, date('Y-m-d', $iDateFrom));
+            }
+        }
+        return $aryRange;
     }
 
 
