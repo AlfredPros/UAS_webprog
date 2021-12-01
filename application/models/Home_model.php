@@ -100,14 +100,15 @@ class Home_model extends CI_Model {
     }
 
     public function insert_request($value) {
-        $this->db->trans_begin();
-        $this->db->insert('request', $value);
-        $this->db->trans_complete();
-
-        if($this->db->trans_status() === FALSE)
-        {
-            $this->db->trans_rollback();
-            return FALSE;
+        $id = $value['id_book'];
+        $start = $this->db->escape($value['start_time']);
+        $end = $this->db->escape($value['end_time']);
+        $day_taken = $this->db->query("SELECT day_taken($id, $start, $end) state")->row_array();
+        if ($day_taken['state']) {
+            return false;
+        } else {
+            $this->db->insert('request', $value);
+            return true;
         }
     }
 
