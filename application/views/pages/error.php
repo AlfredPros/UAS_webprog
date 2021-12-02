@@ -40,6 +40,5 @@
             <h1 class="text-center" style="font-size: 100px;">Oof! Page doesn't exist.</h1>
         </div>
     </div>
-
 </body>
 </html>

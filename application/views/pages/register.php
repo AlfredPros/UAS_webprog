@@ -79,6 +79,7 @@
 </head>
 
 <body>
+    <br><br><br>
     <div class="container col-lg-3 center">
         <div class="box row text-center" style="color: #C90000; padding: 28px">
             <h2 style="font-weight: 900;">Register</h2>
@@ -126,5 +127,6 @@
             </div>
         </div>
     </div>
+    <br><br><br>
 </body>
 </html>
