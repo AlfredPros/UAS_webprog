@@ -7,7 +7,7 @@
     echo $css;
     ?>
 
-    <title>Request List - MangaBook</title>
+    <title>Requests List - MangaBook</title>
     <link rel="icon" href="<?= base_url('assets/images/ThumbnailLogo.png') ?>">
 
     <style>

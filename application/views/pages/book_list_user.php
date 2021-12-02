@@ -50,7 +50,7 @@
 
     <div class="container" style="margin-top:28px">
         <div class="row">
-            <h1 class="text-center">Manga Listing</h1>
+            <h1 class="text-center">Manga List</h1>
         </div>
         <div class="row">
             <p class="text-center">Preview and book manga from this page.</p>

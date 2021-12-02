@@ -53,7 +53,7 @@
     <div class="container-fluid center home-picture">
         <div class="row">
             <div class="col text-center">
-                <img src="<?= base_url($_SESSION['link_profile']) ?>" alt="" style="height: 200px; width: 200px; border-radius: 100%; object-fit: cover; margin-bottom: 8px; box-shadow: 0 0 50px #FFFFFF;">
+                <img src="<?= base_url($_SESSION['link_profile']) ?>" alt="" style="height: 200px; width: 200px; border-radius: 100%; object-fit: cover; margin-bottom: 8px; box-shadow: 0 0 50px #FFFFFF;" draggable="false">
                 <h1 style="text-shadow: 0 0 10px #FFFFFF;">Hello, <?= $_SESSION['name']; ?>!</h1>
             </div>
         </div>

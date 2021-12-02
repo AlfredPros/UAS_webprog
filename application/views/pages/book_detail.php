@@ -65,7 +65,7 @@
         <br>
         <div class="d-flex justify-content-center align-items-center">
             <a class="btn red-btn" role="button" style="margin-right:8px" href="<?= base_url("index.php/home/booking_manga?id_book=" . $book[0]['id_book']) ?>">Book</a>
-            <a class="btn red-outline-btn" role="button" style="margin-left:8px" href="<?= base_url("index.php/home/book_list") ?>">Return to listing</a>
+            <a class="btn red-outline-btn" role="button" style="margin-left:8px" href="<?= base_url("index.php/home/book_list") ?>">Return to Manga List</a>
         </div>
     </div>
     <hr>

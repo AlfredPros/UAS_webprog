@@ -56,7 +56,7 @@
 		<form class="col-md-4 offset-md-4" action="<?= base_url("index.php/home/do_add_book") ?>" method="POST" enctype="multipart/form-data">
 			<div class="mb-3">
 				<label for="Title">Title</label>
-				<input type="text" class="form-control" id="Title" name="title" placeholder="Ya Yeet" value="<?= set_value("title") ?>">
+				<input type="text" class="form-control" id="Title" name="title" placeholder="Title" value="<?= set_value("title") ?>">
 				<div style="color:red"><?= form_error('Title'); ?></div>
 			</div>
 
@@ -68,19 +68,19 @@
 
 			<div class="mb-3">
 				<label for="Publisher" style="margin-top:10px">Publisher</label>
-				<input type="text" class="form-control" id="Publisher" name="publisher" placeholder="No one" value="<?= set_value("publisher") ?>">
+				<input type="text" class="form-control" id="Publisher" name="publisher" placeholder="Publisher" value="<?= set_value("publisher") ?>">
 				<div style="color:red"><?= form_error('Publisher'); ?></div>
 			</div>
 
 			<div class="mb-3">
 				<label for="Author" style="margin-top:10px">Author</label>
-				<input type="text" class="form-control" id="Author" name="author" placeholder="No one" value="<?= set_value("author") ?>">
+				<input type="text" class="form-control" id="Author" name="author" placeholder="Author" value="<?= set_value("author") ?>">
 				<div style="color:red"><?= form_error('Author'); ?></div>
 			</div>
 
 			<div class="mb-3">
 				<label for="description">Description</label>
-				<textarea class="form-control" id="description" name="description" placeholder="Ya Yeet" value="<?= set_value('description') ?>" rows="4"></textarea>
+				<textarea class="form-control" id="description" name="description" placeholder="Description" value="<?= set_value('description') ?>" rows="4"></textarea>
 				<div style="color:red"><?= form_error('description'); ?></div>
 			</div>
 

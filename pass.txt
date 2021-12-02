@@ -1,4 +1,3 @@
-
 email: admin@admin.com
 pass: kuis2pemweb2017garam
 
@@ -7,3 +6,19 @@ pass: localhost
 
 email: ikan@goreng.com
 pass: user
+
+===========================================
+
+AKUN DATABASE LIBRARYBARU.SQL
+
+Admin
+admin@mangabook.co.id
+adminmangabookgantengsekali
+
+Manager
+manager@mangabook.co.id
+adminmangabookmanissekali
+
+User
+user@mangabook.co.id
+adminmangabookimutsekali

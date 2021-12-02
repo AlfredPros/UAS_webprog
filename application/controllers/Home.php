@@ -1,32 +1,34 @@
 <?php
 
-defined('BASEPATH') OR exit('No direct script access allowed');
+defined('BASEPATH') or exit('No direct script access allowed');
 
-class Home extends CI_Controller {
-    public function __construct() {
+class Home extends CI_Controller
+{
+    public function __construct()
+    {
         parent::__construct();
         $this->load->model('home_model');
         $this->load->library('session');
     }
 
-    public function index() {  // Landing page
+    public function index()
+    {  // Landing page
         $data['js'] = $this->load->view('include/javascript.php', NULL, TRUE);
         $data['css'] = $this->load->view('include/css.php', NULL, TRUE);
         $data['header'] = $this->load->view('pages/header.php', NULL, TRUE);
 
         if (!isset($_SESSION['logged_in']) || $_SESSION['logged_in'] == false) {
             $this->load->view('pages/home.php', $data);
-        }
-        else {
+        } else {
             switch ($_SESSION['role']) {
                 case 'User':
                     $this->load->view('pages/home_user.php', $data);
                     break;
-                
+
                 case 'Manager':
                     $this->load->view('pages/home_management.php', $data);
                     break;
-                
+
                 case 'Admin':
                     $this->load->view('pages/home_admin.php', $data);
                     break;
@@ -47,23 +49,24 @@ class Home extends CI_Controller {
             $data['header'] = $this->load->view('pages/header.php', NULL, TRUE);
             $data['users'] = $this->home_model->get_list_user();
             $this->load->view('pages/user_list_admin.php', $data, NULL);
-        } 
-        else {
+        } else {
             $this->error404();
         }
     }
 
-    public function login() {
+    public function login()
+    {
         $data['js'] = $this->load->view('include/javascript.php', NULL, TRUE);
         $data['css'] = $this->load->view('include/css.php', NULL, TRUE);
         $data['header'] = $this->load->view('pages/header.php', NULL, TRUE);
         $this->load->view('pages/login.php', $data);
     }
 
-    public function do_login() {
+    public function do_login()
+    {
         $token = $_POST['token'];
         $action = $_POST['action'];
-        
+
         $score_limit = 0.8;
 
         $recaptcha_url = "https://www.google.com/recaptcha/api/siteverify";
@@ -81,8 +84,7 @@ class Home extends CI_Controller {
                 $data['css'] = $this->load->view('include/css.php', NULL, TRUE);
                 $data['header'] = $this->load->view('pages/header.php', NULL, TRUE);
                 $this->load->view('pages/login.php', $data);
-            }
-            else {
+            } else {
                 $password = $this->input->post('password');
                 $passhash = hash('sha512', $password);
 
@@ -97,15 +99,14 @@ class Home extends CI_Controller {
                     $newdata = array(
                         'alert'  => "Wrong email or password!"
                     );
-        
+
                     $this->session->set_userdata($newdata);
 
                     $data['js'] = $this->load->view('include/javascript.php', NULL, TRUE);
                     $data['css'] = $this->load->view('include/css.php', NULL, TRUE);
                     $data['header'] = $this->load->view('pages/header.php', NULL, TRUE);
                     $this->load->view('pages/login.php', $data);
-                }
-                else {
+                } else {
                     $newdata = array(
                         'id' => $result[0]['id_user'],
                         'name'  => $result[0]['name'],
@@ -113,30 +114,30 @@ class Home extends CI_Controller {
                         'role' => $result[0]['role'],
                         'logged_in' => true
                     );
-        
+
                     $this->session->set_userdata($newdata);
 
                     redirect("home");
                 }
-                
             }
-        }
-        else {  // Not success
+        } else {  // Not success
             redirect("home");
         }
     }
 
-    public function register() {
+    public function register()
+    {
         $data['js'] = $this->load->view('include/javascript.php', NULL, TRUE);
         $data['css'] = $this->load->view('include/css.php', NULL, TRUE);
         $data['header'] = $this->load->view('pages/header.php', NULL, TRUE);
         $this->load->view('pages/register.php', $data);
     }
 
-    public function do_register() {
+    public function do_register()
+    {
         $token = $this->input->post('token');
         $action = $this->input->post('action');
-        
+
         $score_limit = 0.9;
 
         $recaptcha_url = "https://www.google.com/recaptcha/api/siteverify";
@@ -163,17 +164,15 @@ class Home extends CI_Controller {
                 $data['css'] = $this->load->view('include/css.php', NULL, TRUE);
                 $data['header'] = $this->load->view('pages/header.php', NULL, TRUE);
                 $this->load->view('pages/register.php', $data);
-            }
-            else {
+            } else {
                 if (!$this->upload->do_upload('link_profile')) {
                     $data['error'] = array('error' => $this->upload->display_errors());
-                    
+
                     $data['js'] = $this->load->view('include/javascript.php', NULL, TRUE);
                     $data['css'] = $this->load->view('include/css.php', NULL, TRUE);
                     $data['header'] = $this->load->view('pages/header.php', NULL, TRUE);
                     $this->load->view('pages/register.php', $data);
-                }
-                else {
+                } else {
                     $data = array('upload_data' => $this->upload->data());
 
                     $password = $this->input->post('password');
@@ -183,7 +182,7 @@ class Home extends CI_Controller {
                         'email' => strip_tags($this->input->post('email')),
                         'password' => $passhash,
                         'name' => strip_tags($this->input->post('name')),
-                        'link_profile' => 'assets/pp/'.$data['upload_data']['file_name']
+                        'link_profile' => 'assets/pp/' . $data['upload_data']['file_name']
                     );
 
                     $this->home_model->add_user($values);
@@ -191,19 +190,19 @@ class Home extends CI_Controller {
                     $newdata = array(
                         'alert'  => "User has been registered. Please log in to proceed."
                     );
-        
+
                     $this->session->set_userdata($newdata);
 
                     redirect("home/login");
                 }
             }
-        }
-        else {  // Not success
+        } else {  // Not success
             redirect("home");
         }
     }
 
-    public function edit_user() {
+    public function edit_user()
+    {
         $id_user = $this->input->get('id_user');
         if (isset($_SESSION['logged_in']) && $_SESSION['role'] == 'Admin') {
             $data['js'] = $this->load->view('include/javascript.php', NULL, TRUE);
@@ -211,55 +210,57 @@ class Home extends CI_Controller {
             $data['header'] = $this->load->view('pages/header.php', NULL, TRUE);
             $data['user'] = $this->home_model->get_user($id_user);
             $this->load->view('pages/edit_user.php', $data);
-        }
-        else {
+        } else {
             $this->error404();
         }
     }
 
-    public function delete_user() {
+    public function delete_user()
+    {
         $id_user = $this->input->get('id_user');
         if (isset($_SESSION['logged_in']) && $_SESSION['role'] == 'Admin') {
             $this->home_model->delete_user($id_user);
             redirect("home");
-        }
-        else {
+        } else {
             $this->error404();
         }
     }
 
-    public function error404() {
+    public function error404()
+    {
         $data['js'] = $this->load->view('include/javascript.php', NULL, TRUE);
         $data['css'] = $this->load->view('include/css.php', NULL, TRUE);
         $data['header'] = $this->load->view('pages/header.php', NULL, TRUE);
         $this->load->view('pages/error.php', $data);
     }
 
-    public function logout() {
+    public function logout()
+    {
         $this->session->sess_destroy();
 
         redirect("home");
     }
 
-    public function do_edit_user() {
+    public function do_edit_user()
+    {
         if (!isset($_SESSION['logged_in']) || $_SESSION['logged_in'] == false || $_SESSION['role'] != 'Admin') {
             $this->error404();
         }
 
         $this->form_validation->set_rules("id_user", "id_user", "required");
         $this->form_validation->set_rules("email", "email", "required|valid_email");
-		$this->form_validation->set_rules("name", "name", "required");
-		$this->form_validation->set_rules("role", "role", "required|in_list[Admin,Manager,User]");
+        $this->form_validation->set_rules("name", "name", "required");
+        $this->form_validation->set_rules("role", "role", "required|in_list[Admin,Manager,User]");
 
-		$config['upload_path'] = './assets/pp/';
-		$config['allowed_types'] = 'png|jpg|gif';
-		$config['max_size'] = 4096;
-		$config['max_width'] = 2048;
-		$config['max_height'] = 2048;
-		$config['encrypt_name'] = true;
-		$this->load->library('upload', $config);
+        $config['upload_path'] = './assets/pp/';
+        $config['allowed_types'] = 'png|jpg|gif';
+        $config['max_size'] = 4096;
+        $config['max_width'] = 2048;
+        $config['max_height'] = 2048;
+        $config['encrypt_name'] = true;
+        $this->load->library('upload', $config);
 
-		if ($this->form_validation->run() == false) {
+        if ($this->form_validation->run() == false) {
             $id_user = $this->input->post('id_user');
 
             $data['js'] = $this->load->view('include/javascript.php', NULL, TRUE);
@@ -267,35 +268,33 @@ class Home extends CI_Controller {
             $data['header'] = $this->load->view('pages/header.php', NULL, TRUE);
             $data['user'] = $this->home_model->get_user($id_user);
             $this->load->view('pages/edit_user.php', $data);
-		}
-		else {
-			if (!$this->upload->do_upload('link_profile')) {
+        } else {
+            if (!$this->upload->do_upload('link_profile')) {
                 $id_user = $this->input->post('id_user');
 
                 $data['error'] = array('error' => $this->upload->display_errors());
-				
+
                 $data['js'] = $this->load->view('include/javascript.php', NULL, TRUE);
                 $data['css'] = $this->load->view('include/css.php', NULL, TRUE);
                 $data['header'] = $this->load->view('pages/header.php', NULL, TRUE);
                 $data['user'] = $this->home_model->get_user($id_user);
                 $this->load->view('pages/edit_user.php', $data);
-			}
-			else {
-				$data = array('upload_data' => $this->upload->data());
+            } else {
+                $data = array('upload_data' => $this->upload->data());
 
-				$values = array(
+                $values = array(
                     'id_user' => $this->input->post('id_user'),
-					'email' => $this->input->post('email'),
-					'name' => $this->input->post('name'),
-					'role' => $this->input->post('role'),
-					'link_profile' => 'assets/pp/'.$data['upload_data']['file_name']
-				);
+                    'email' => $this->input->post('email'),
+                    'name' => $this->input->post('name'),
+                    'role' => $this->input->post('role'),
+                    'link_profile' => 'assets/pp/' . $data['upload_data']['file_name']
+                );
 
-				$this->home_model->update_user($values);
+                $this->home_model->update_user($values);
 
-				redirect("home/user_list");
-			}
-		}
+                redirect("home/user_list");
+            }
+        }
     }
 
     // Book
@@ -310,10 +309,9 @@ class Home extends CI_Controller {
             if ($_SESSION['role'] == 'User') {
                 $this->load->view('pages/book_list_user.php', $data, NULL);
             } else if ($_SESSION['role'] == 'Admin' || $_SESSION['role'] == 'Manager') {
-                $this->load->view('pages/book_list_crud.php', $data, NULL);   
+                $this->load->view('pages/book_list_crud.php', $data, NULL);
             }
-        } 
-        else {
+        } else {
             $this->error404();
         }
     }
@@ -340,12 +338,10 @@ class Home extends CI_Controller {
             $data['book'] = $this->home_model->get_book($book);
             if (empty($data['book'])) {
                 $this->error404();
-            } 
-            else {
+            } else {
                 $this->load->view('pages/book_detail.php', $data, NULL);
             }
-        } 
-        else {
+        } else {
             $this->error404();
         }
     }
@@ -361,12 +357,10 @@ class Home extends CI_Controller {
             $data['book'] = $this->home_model->get_book($book);
             if (empty($data['book'])) {
                 $this->error404();
-            } 
-            else {
+            } else {
                 $this->load->view('pages/booking_manga.php', $data, NULL);
             }
-        } 
-        else {
+        } else {
             $this->error404();
         }
     }
@@ -387,27 +381,25 @@ class Home extends CI_Controller {
                 $data['header'] = $this->load->view('pages/header.php', NULL, TRUE);
                 $data['book'] = $this->home_model->get_book($book);
                 $this->load->view('pages/booking_manga.php', $data);
-            }
-            else {
+            } else {
                 $datebook1 = $this->input->post('start_time');
                 $datebook2 = $this->input->post('end_time');
                 $date1 = strtotime($datebook1);
                 $date2 = strtotime($datebook2);
 
-                $hourDiff = round(($date2 - $date1) / (60*60*24),0);
+                $hourDiff = round(($date2 - $date1) / (60 * 60 * 24), 0);
 
                 if ($hourDiff < 1 || $hourDiff > 7) {
                     if ($hourDiff < 1) {
                         $temp = "Date is too short.";
-                    }
-                    else {
+                    } else {
                         $temp = "Date is larger than the allowed 7 days.";
                     }
 
                     $newdata = array(
                         'alert'  => $temp
                     );
-        
+
                     $this->session->set_userdata($newdata);
 
                     $book = $this->input->post('id_book');
@@ -435,7 +427,7 @@ class Home extends CI_Controller {
                     foreach ($request_days as $day) {
                         foreach ($blacklist as $bl) {
                             if (in_array($day, $bl)) {
-                                $flag =false;
+                                $flag = false;
                                 break;
                             }
                         }
@@ -444,15 +436,15 @@ class Home extends CI_Controller {
                         $this->home_model->insert_request($values);
                         redirect("home/book_list");
                     } else {
-                        
+
                         $newdata = array(
                             'alert'  => "Date has been taken<br>Please select another date"
                         );
-            
+
                         $this->session->set_userdata($newdata);
-    
+
                         $book = $this->input->post('id_book');
-    
+
                         $data['js'] = $this->load->view('include/javascript.php', NULL, TRUE);
                         $data['css'] = $this->load->view('include/css.php', NULL, TRUE);
                         $data['header'] = $this->load->view('pages/header.php', NULL, TRUE);
@@ -466,18 +458,19 @@ class Home extends CI_Controller {
         }
     }
 
-    public function delete_book() {
+    public function delete_book()
+    {
         if (isset($_SESSION['logged_in']) && ($_SESSION['role'] == 'Admin' || $_SESSION['role'] == 'Manager')) {
             $id_book = $this->input->get('id_book');
             $this->home_model->delete_book($id_book);
             redirect("home/book_list");
-        }
-        else {
+        } else {
             $this->error404();
         }
     }
 
-    public function detail_book() {
+    public function detail_book()
+    {
         if (!isset($_SESSION['logged_in']) || $_SESSION['logged_in'] == false) {
             $newdata = array(
                 'alertNotif'  => 'Login is required to see the page.',
@@ -498,8 +491,7 @@ class Home extends CI_Controller {
             $data['css'] = $this->load->view('include/css.php', NULL, TRUE);
             $data['header'] = $this->load->view('pages/header.php', NULL, TRUE);
             $this->load->view('pages/error.php', $data);
-        }
-        else {  // id found
+        } else {  // id found
             $data['js'] = $this->load->view('include/javascript.php', NULL, TRUE);
             $data['css'] = $this->load->view('include/css.php', NULL, TRUE);
             $data['header'] = $this->load->view('pages/header.php', NULL, TRUE);
@@ -507,7 +499,8 @@ class Home extends CI_Controller {
         }
     }
 
-    public function add_book() {
+    public function add_book()
+    {
         if (isset($_SESSION['logged_in']) && ($_SESSION['role'] == 'Admin' || $_SESSION['role'] == 'Manager')) {
             $data['js'] = $this->load->view('include/javascript.php', NULL, TRUE);
             $data['css'] = $this->load->view('include/css.php', NULL, TRUE);
@@ -518,7 +511,8 @@ class Home extends CI_Controller {
         }
     }
 
-    public function edit_book() {
+    public function edit_book()
+    {
         if (isset($_SESSION['logged_in']) && ($_SESSION['role'] == 'Admin' || $_SESSION['role'] == 'Manager')) {
             $id_book = $this->input->get('id_book');
 
@@ -529,8 +523,7 @@ class Home extends CI_Controller {
                 $data['css'] = $this->load->view('include/css.php', NULL, TRUE);
                 $data['header'] = $this->load->view('pages/header.php', NULL, TRUE);
                 $this->load->view('pages/error.php', $data);
-            }
-            else {  // id found
+            } else {  // id found
                 $data['js'] = $this->load->view('include/javascript.php', NULL, TRUE);
                 $data['css'] = $this->load->view('include/css.php', NULL, TRUE);
                 $data['header'] = $this->load->view('pages/header.php', NULL, TRUE);
@@ -541,7 +534,8 @@ class Home extends CI_Controller {
         }
     }
 
-    public function do_edit_book() {
+    public function do_edit_book()
+    {
         if (isset($_SESSION['logged_in']) && ($_SESSION['role'] == 'Admin' || $_SESSION['role'] == 'Manager')) {
             $this->form_validation->set_rules("id_book", "id_book", "required");
             $this->form_validation->set_rules("title", "title", "required");
@@ -567,21 +561,19 @@ class Home extends CI_Controller {
                 $data['css'] = $this->load->view('include/css.php', NULL, TRUE);
                 $data['header'] = $this->load->view('pages/header.php', NULL, TRUE);
                 $this->load->view('pages/edit_book.php', $data);
-            }
-            else {
+            } else {
                 if (!$this->upload->do_upload('link_cover')) {
                     $id_book = $this->input->post('id_book');
 
                     $data['book'] = $this->home_model->get_book($id_book);
 
                     $data['error'] = array('error' => $this->upload->display_errors());
-                    
+
                     $data['js'] = $this->load->view('include/javascript.php', NULL, TRUE);
                     $data['css'] = $this->load->view('include/css.php', NULL, TRUE);
                     $data['header'] = $this->load->view('pages/header.php', NULL, TRUE);
                     $this->load->view('pages/edit_book.php', $data);
-                }
-                else {
+                } else {
                     $data = array('upload_data' => $this->upload->data());
 
                     $values = array(
@@ -591,7 +583,7 @@ class Home extends CI_Controller {
                         'author' => $this->input->post('author'),
                         'publisher' => $this->input->post('publisher'),
                         'description' => $this->input->post('description'),
-                        'link_cover' => 'assets/cover/'.$data['upload_data']['file_name']
+                        'link_cover' => 'assets/cover/' . $data['upload_data']['file_name']
                     );
 
                     $this->home_model->update_book($values);
@@ -599,14 +591,14 @@ class Home extends CI_Controller {
                     redirect("home/book_list");
                 }
             }
-        }
-        else {
+        } else {
             $this->error404();
         }
     }
 
-    public function do_add_book() {
-        if (isset($_SESSION['logged_in']) && ($_SESSION['role'] == 'Admin'|| $_SESSION['role'] == 'Manager' )) {
+    public function do_add_book()
+    {
+        if (isset($_SESSION['logged_in']) && ($_SESSION['role'] == 'Admin' || $_SESSION['role'] == 'Manager')) {
             $this->form_validation->set_rules("title", "title", "required");
             $this->form_validation->set_rules("year", "year", "required|integer|min_length[4]|max_length[4]");
             $this->form_validation->set_rules("publisher", "publisher", "required");
@@ -626,26 +618,24 @@ class Home extends CI_Controller {
                 $data['css'] = $this->load->view('include/css.php', NULL, TRUE);
                 $data['header'] = $this->load->view('pages/header.php', NULL, TRUE);
                 $this->load->view('pages/add_book.php', $data);
-            }
-            else {
+            } else {
                 if (!$this->upload->do_upload('link_cover')) {
                     $data['error'] = array('error' => $this->upload->display_errors());
-                    
+
                     $data['js'] = $this->load->view('include/javascript.php', NULL, TRUE);
                     $data['css'] = $this->load->view('include/css.php', NULL, TRUE);
                     $data['header'] = $this->load->view('pages/header.php', NULL, TRUE);
                     $this->load->view('pages/add_book.php', $data);
-                }
-                else {
+                } else {
                     $data = array('upload_data' => $this->upload->data());
 
                     $values = array(
                         'title' => $this->input->post('title'),
                         'year' => $this->input->post('year'),
-                        'author' => $this->input->post('publisher'),
-                        'publisher' => $this->input->post('author'),
+                        'author' => $this->input->post('author'),
+                        'publisher' => $this->input->post('publisher'),
                         'description' => $this->input->post('description'),
-                        'link_cover' => 'assets/cover/'.$data['upload_data']['file_name']
+                        'link_cover' => 'assets/cover/' . $data['upload_data']['file_name']
                     );
 
                     $this->home_model->add_book($values);
@@ -682,9 +672,7 @@ class Home extends CI_Controller {
                     $this->error404();
                     break;
             }
-            
-        } 
-        else {
+        } else {
             $this->error404();
         }
     }
@@ -695,8 +683,7 @@ class Home extends CI_Controller {
             $id_request = $this->input->get('id_request');
             $this->home_model->approve_request($id_request);
             redirect("home/request_list");
-        }
-        else {
+        } else {
             $this->error404();
         }
     }
@@ -707,24 +694,23 @@ class Home extends CI_Controller {
             $id_request = $this->input->get('id_request');
             $this->home_model->reject_request($id_request);
             redirect("home/request_list");
-        }
-        else {
+        } else {
             $this->error404();
         }
     }
 
-    public function delete_request() {
+    public function delete_request()
+    {
         if (isset($_SESSION['logged_in']) && $_SESSION['role'] == 'Admin') {
             $id_request = $this->input->get('id_request');
             $this->home_model->delete_request($id_request);
             redirect("home/request_list");
-        }
-        else {
+        } else {
             $this->error404();
         }
     }
 
-    function createDateRangeArray($strDateFrom,$strDateTo)
+    function createDateRangeArray($strDateFrom, $strDateTo)
     {
         // takes two dates formatted as YYYY-MM-DD and creates an
         // inclusive array of the dates between the from and to dates.
@@ -739,7 +725,7 @@ class Home extends CI_Controller {
 
         if ($iDateTo >= $iDateFrom) {
             array_push($aryRange, date('Y-m-d', $iDateFrom)); // first entry
-            while ($iDateFrom<$iDateTo) {
+            while ($iDateFrom < $iDateTo) {
                 $iDateFrom += 86400; // add 24 hours
                 array_push($aryRange, date('Y-m-d', $iDateFrom));
             }
@@ -1014,5 +1000,4 @@ class Home extends CI_Controller {
         redirect("home");
     }
     */
-   
 }
