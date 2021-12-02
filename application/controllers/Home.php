@@ -203,7 +203,7 @@ class Home extends CI_Controller
 
     public function edit_user()
     {
-        $id_user = $this->input->get('id_user');
+        $id_user = strip_tags($this->input->get('id_user'));
         if (isset($_SESSION['logged_in']) && $_SESSION['role'] == 'Admin') {
             $data['js'] = $this->load->view('include/javascript.php', NULL, TRUE);
             $data['css'] = $this->load->view('include/css.php', NULL, TRUE);
@@ -217,7 +217,7 @@ class Home extends CI_Controller
 
     public function delete_user()
     {
-        $id_user = $this->input->get('id_user');
+        $id_user = strip_tags($this->input->get('id_user'));
         if (isset($_SESSION['logged_in']) && $_SESSION['role'] == 'Admin') {
             $this->home_model->delete_user($id_user);
             redirect("home");
@@ -261,7 +261,7 @@ class Home extends CI_Controller
         $this->load->library('upload', $config);
 
         if ($this->form_validation->run() == false) {
-            $id_user = $this->input->post('id_user');
+            $id_user = strip_tags($this->input->post('id_user'));
 
             $data['js'] = $this->load->view('include/javascript.php', NULL, TRUE);
             $data['css'] = $this->load->view('include/css.php', NULL, TRUE);
@@ -270,7 +270,7 @@ class Home extends CI_Controller
             $this->load->view('pages/edit_user.php', $data);
         } else {
             if (!$this->upload->do_upload('link_profile')) {
-                $id_user = $this->input->post('id_user');
+                $id_user = strip_tags($this->input->post('id_user'));
 
                 $data['error'] = array('error' => $this->upload->display_errors());
 
@@ -283,10 +283,10 @@ class Home extends CI_Controller
                 $data = array('upload_data' => $this->upload->data());
 
                 $values = array(
-                    'id_user' => $this->input->post('id_user'),
-                    'email' => $this->input->post('email'),
-                    'name' => $this->input->post('name'),
-                    'role' => $this->input->post('role'),
+                    'id_user' => strip_tags($this->input->post('id_user')),
+                    'email' => strip_tags($this->input->post('email')),
+                    'name' => strip_tags($this->input->post('name')),
+                    'role' => strip_tags($this->input->post('role')),
                     'link_profile' => 'assets/pp/' . $data['upload_data']['file_name']
                 );
 
@@ -319,9 +319,15 @@ class Home extends CI_Controller
     public function book_detail()
     {
         if (isset($_SESSION['logged_in'])) {
-            $book = $this->input->get('id_book');
-            $data['month'] = $this->input->get('month');
-            $data['year'] = $this->input->get('year');
+            $book = strip_tags($this->input->get('id_book'));
+            $data['month'] = strip_tags($this->input->get('month'));
+            $data['year'] = strip_tags($this->input->get('year'));
+            if (empty($data['month'])) {
+                $data['month'] = date('m');
+            }
+            if (empty($data['year'])) {
+                $data['year'] = date('Y');
+            }
 
             $data['requests'] = $this->home_model->get_book_request($book);
             $values = array(
@@ -349,7 +355,7 @@ class Home extends CI_Controller
     public function booking_manga()
     {
         if (isset($_SESSION['logged_in'])) {
-            $book = $this->input->get('id_book');
+            $book = strip_tags($this->input->get('id_book'));
 
             $data['js'] = $this->load->view('include/javascript.php', NULL, TRUE);
             $data['css'] = $this->load->view('include/css.php', NULL, TRUE);
@@ -374,7 +380,7 @@ class Home extends CI_Controller
             $this->form_validation->set_rules("end_time", "end_time", "required");
 
             if ($this->form_validation->run() == false) {
-                $book = $this->input->post('id_book');
+                $book = strip_tags($this->input->post('id_book'));
 
                 $data['js'] = $this->load->view('include/javascript.php', NULL, TRUE);
                 $data['css'] = $this->load->view('include/css.php', NULL, TRUE);
@@ -382,8 +388,8 @@ class Home extends CI_Controller
                 $data['book'] = $this->home_model->get_book($book);
                 $this->load->view('pages/booking_manga.php', $data);
             } else {
-                $datebook1 = $this->input->post('start_time');
-                $datebook2 = $this->input->post('end_time');
+                $datebook1 = strip_tags($this->input->post('start_time'));
+                $datebook2 = strip_tags($this->input->post('end_time'));
                 $date1 = strtotime($datebook1);
                 $date2 = strtotime($datebook2);
 
@@ -402,7 +408,7 @@ class Home extends CI_Controller
 
                     $this->session->set_userdata($newdata);
 
-                    $book = $this->input->post('id_book');
+                    $book = strip_tags($this->input->post('id_book'));
 
                     $data['js'] = $this->load->view('include/javascript.php', NULL, TRUE);
                     $data['css'] = $this->load->view('include/css.php', NULL, TRUE);
@@ -412,8 +418,8 @@ class Home extends CI_Controller
                 } else {
                     $flag = true;
                     $values = array(
-                        'id_book' => $this->input->post('id_book'),
-                        'id_user' => $this->input->post('id_user'),
+                        'id_book' => strip_tags($this->input->post('id_book')),
+                        'id_user' => strip_tags($this->input->post('id_user')),
                         'start_time' => $datebook1,
                         'end_time' => $datebook2
                     );
@@ -443,7 +449,7 @@ class Home extends CI_Controller
 
                         $this->session->set_userdata($newdata);
 
-                        $book = $this->input->post('id_book');
+                        $book = strip_tags($this->input->post('id_book'));
 
                         $data['js'] = $this->load->view('include/javascript.php', NULL, TRUE);
                         $data['css'] = $this->load->view('include/css.php', NULL, TRUE);
@@ -461,7 +467,7 @@ class Home extends CI_Controller
     public function delete_book()
     {
         if (isset($_SESSION['logged_in']) && ($_SESSION['role'] == 'Admin' || $_SESSION['role'] == 'Manager')) {
-            $id_book = $this->input->get('id_book');
+            $id_book = strip_tags($this->input->get('id_book'));
             $this->home_model->delete_book($id_book);
             redirect("home/book_list");
         } else {
@@ -482,7 +488,7 @@ class Home extends CI_Controller
             redirect("home");
         }
 
-        $id_book = $this->input->get('id_book');
+        $id_book = strip_tags($this->input->get('id_book'));
 
         $data['book'] = $this->home_model->get_book($id_book);
 
@@ -514,7 +520,7 @@ class Home extends CI_Controller
     public function edit_book()
     {
         if (isset($_SESSION['logged_in']) && ($_SESSION['role'] == 'Admin' || $_SESSION['role'] == 'Manager')) {
-            $id_book = $this->input->get('id_book');
+            $id_book = strip_tags($this->input->get('id_book'));
 
             $data['book'] = $this->home_model->get_book($id_book);
 
@@ -553,7 +559,7 @@ class Home extends CI_Controller
             $this->load->library('upload', $config);
 
             if ($this->form_validation->run() == false) {
-                $id_book = $this->input->post('id_book');
+                $id_book = strip_tags($this->input->post('id_book'));
 
                 $data['book'] = $this->home_model->get_book($id_book);
 
@@ -563,7 +569,7 @@ class Home extends CI_Controller
                 $this->load->view('pages/edit_book.php', $data);
             } else {
                 if (!$this->upload->do_upload('link_cover')) {
-                    $id_book = $this->input->post('id_book');
+                    $id_book = strip_tags($this->input->post('id_book'));
 
                     $data['book'] = $this->home_model->get_book($id_book);
 
@@ -577,12 +583,12 @@ class Home extends CI_Controller
                     $data = array('upload_data' => $this->upload->data());
 
                     $values = array(
-                        'id_book' => $this->input->post('id_book'),
-                        'title' => $this->input->post('title'),
-                        'year' => $this->input->post('year'),
-                        'author' => $this->input->post('author'),
-                        'publisher' => $this->input->post('publisher'),
-                        'description' => $this->input->post('description'),
+                        'id_book' => strip_tags($this->input->post('id_book')),
+                        'title' => strip_tags($this->input->post('title')),
+                        'year' => strip_tags($this->input->post('year')),
+                        'author' => strip_tags($this->input->post('author')),
+                        'publisher' => strip_tags($this->input->post('publisher')),
+                        'description' => strip_tags($this->input->post('description')),
                         'link_cover' => 'assets/cover/' . $data['upload_data']['file_name']
                     );
 
@@ -630,11 +636,11 @@ class Home extends CI_Controller
                     $data = array('upload_data' => $this->upload->data());
 
                     $values = array(
-                        'title' => $this->input->post('title'),
-                        'year' => $this->input->post('year'),
-                        'author' => $this->input->post('author'),
-                        'publisher' => $this->input->post('publisher'),
-                        'description' => $this->input->post('description'),
+                        'title' => strip_tags($this->input->post('title')),
+                        'year' => strip_tags($this->input->post('year')),
+                        'author' => strip_tags($this->input->post('author')),
+                        'publisher' => strip_tags($this->input->post('publisher')),
+                        'description' => strip_tags($this->input->post('description')),
                         'link_cover' => 'assets/cover/' . $data['upload_data']['file_name']
                     );
 
@@ -680,7 +686,7 @@ class Home extends CI_Controller
     public function approve_request()
     {
         if (isset($_SESSION['logged_in']) && $_SESSION['role'] == 'Manager') {
-            $id_request = $this->input->get('id_request');
+            $id_request = strip_tags($this->input->get('id_request'));
             $this->home_model->approve_request($id_request);
             redirect("home/request_list");
         } else {
@@ -691,7 +697,7 @@ class Home extends CI_Controller
     public function reject_request()
     {
         if (isset($_SESSION['logged_in']) && $_SESSION['role'] == 'Manager') {
-            $id_request = $this->input->get('id_request');
+            $id_request = strip_tags($this->input->get('id_request'));
             $this->home_model->reject_request($id_request);
             redirect("home/request_list");
         } else {
@@ -702,7 +708,7 @@ class Home extends CI_Controller
     public function delete_request()
     {
         if (isset($_SESSION['logged_in']) && $_SESSION['role'] == 'Admin') {
-            $id_request = $this->input->get('id_request');
+            $id_request = strip_tags($this->input->get('id_request'));
             $this->home_model->delete_request($id_request);
             redirect("home/request_list");
         } else {
@@ -714,9 +720,6 @@ class Home extends CI_Controller
     {
         // takes two dates formatted as YYYY-MM-DD and creates an
         // inclusive array of the dates between the from and to dates.
-
-        // could test validity of dates here but I'm already doing
-        // that in the main script
 
         $aryRange = [];
 
@@ -732,272 +735,4 @@ class Home extends CI_Controller
         }
         return $aryRange;
     }
-
-
-    /*
-    public function detail_book() {
-        if (!isset($_SESSION['logged_in']) || $_SESSION['logged_in'] == false) {
-            $newdata = array(
-                'alertNotif'  => 'Login is required to see the page.',
-                'logged_in' => false
-            );
-
-            $this->session->set_userdata($newdata);
-
-            redirect("home");
-        }
-
-        $id_book = $this->input->get('id_book');
-
-        $data['book'] = $this->home_model->get_book($id_book);
-
-        if (empty($data['book'])) {  // id not found
-            $data['js'] = $this->load->view('include/javascript.php', NULL, TRUE);
-            $data['css'] = $this->load->view('include/css.php', NULL, TRUE);
-            $data['header'] = $this->load->view('pages/header.php', NULL, TRUE);
-            $this->load->view('pages/error.php', $data);
-        }
-        else {  // id found
-            $data['js'] = $this->load->view('include/javascript.php', NULL, TRUE);
-            $data['css'] = $this->load->view('include/css.php', NULL, TRUE);
-            $data['header'] = $this->load->view('pages/header.php', NULL, TRUE);
-            $this->load->view('pages/detail.php', $data);
-        }
-    }
-
-    public function add_book() {
-        if (!isset($_SESSION['logged_in']) || $_SESSION['logged_in'] == false) {
-            $newdata = array(
-                'alertNotif'  => 'Login is required to see the page.',
-                'logged_in' => false
-            );
-
-            $this->session->set_userdata($newdata);
-
-            redirect("home");
-        }
-
-        $data['js'] = $this->load->view('include/javascript.php', NULL, TRUE);
-        $data['css'] = $this->load->view('include/css.php', NULL, TRUE);
-        $data['header'] = $this->load->view('pages/header.php', NULL, TRUE);
-        $this->load->view('pages/add.php', $data);
-    }
-
-    public function edit_book() {
-        if (!isset($_SESSION['logged_in']) || $_SESSION['logged_in'] == false) {
-            $newdata = array(
-                'alertNotif'  => 'Login is required to see the page.',
-                'logged_in' => false
-            );
-
-            $this->session->set_userdata($newdata);
-
-            redirect("home");
-        }
-
-        $id_book = $this->input->get('id_book');
-
-        $data['book'] = $this->home_model->get_book($id_book);
-
-        if (empty($data['book'])) {  // id not found
-            $data['js'] = $this->load->view('include/javascript.php', NULL, TRUE);
-            $data['css'] = $this->load->view('include/css.php', NULL, TRUE);
-            $data['header'] = $this->load->view('pages/header.php', NULL, TRUE);
-            $this->load->view('pages/error.php', $data);
-        }
-        else {  // id found
-            $data['js'] = $this->load->view('include/javascript.php', NULL, TRUE);
-            $data['css'] = $this->load->view('include/css.php', NULL, TRUE);
-            $data['header'] = $this->load->view('pages/header.php', NULL, TRUE);
-            $this->load->view('pages/edit.php', $data);
-        }
-    }
-
-    
-
-
-    // Non-GUI pages
-    public function dologin() {
-        // kuis2pemweb2017garam
-        // localhost
-
-        $password = $this->input->post('password');
-        $passhash = hash('sha512', $password);
-        
-        $values = array(
-            'password' => $passhash
-        );
-
-        $userFound = $this->home_model->check_user($values);
-
-        if (empty($userFound)) {  // "Not Found!"
-            $newdata = array(
-                'alertNotif'  => 'Email or password is invalid.',
-                'logged_in' => false
-            );
-
-            $this->session->set_userdata($newdata);
-        }
-        else {  // Found!
-            $newdata = array(
-                'logged_in' => true
-            );
-
-            $this->session->set_userdata($newdata);
-        }
-        
-        redirect("home");
-    }
-
-    public function logout() {
-        $this->session->sess_destroy();
-
-        redirect("home");
-    }
-
-    public function do_add() {
-        if (!isset($_SESSION['logged_in']) || $_SESSION['logged_in'] == false) {
-            $newdata = array(
-                'alertNotif'  => 'Login is required to see the page.',
-                'logged_in' => false
-            );
-
-            $this->session->set_userdata($newdata);
-
-            redirect("home");
-        }
-
-        $this->form_validation->set_rules("Title", "Title", "required");
-		$this->form_validation->set_rules("Year", "Year", "required|integer|min_length[4]|max_length[4]");
-		$this->form_validation->set_rules("Publisher", "Publisher", "required");
-		$this->form_validation->set_rules("Author", "Author", "required");
-
-		$config['upload_path'] = './assets/poster/';
-		$config['allowed_types'] = 'png|jpg';
-		$config['max_size'] = 4096;
-		$config['max_width'] = 2048;
-		$config['max_height'] = 2048;
-		$config['encrypt_name'] = true;
-		$this->load->library('upload', $config);
-
-		if ($this->form_validation->run() == false) {
-			$data['js'] = $this->load->view('include/javascript.php', NULL, TRUE);
-            $data['css'] = $this->load->view('include/css.php', NULL, TRUE);
-            $data['header'] = $this->load->view('pages/header.php', NULL, TRUE);
-            $this->load->view('pages/add.php', $data);
-		}
-		else {
-			if (!$this->upload->do_upload('PosterLink')) {
-				$data['error'] = array('error' => $this->upload->display_errors());
-				
-				$data['js'] = $this->load->view('include/javascript.php', NULL, TRUE);
-                $data['css'] = $this->load->view('include/css.php', NULL, TRUE);
-                $data['header'] = $this->load->view('pages/header.php', NULL, TRUE);
-                $this->load->view('pages/add.php', $data);
-			}
-			else {
-				$data = array('upload_data' => $this->upload->data());
-
-				$values = array(
-					'title' => $this->input->post('Title'),
-					'year' => $this->input->post('Year'),
-					'penulis_book' => $this->input->post('Publisher'),
-                    'penerbit_book' => $this->input->post('Author'),
-					'link_poster' => 'assets/poster/'.$data['upload_data']['file_name']
-				);
-
-				$this->home_model->add_book($values);
-
-				redirect("home");
-			}
-		}
-    }
-
-    public function do_edit() {
-        if (!isset($_SESSION['logged_in']) || $_SESSION['logged_in'] == false) {
-            $newdata = array(
-                'alertNotif'  => 'Login is required to see the page.',
-                'logged_in' => false
-            );
-
-            $this->session->set_userdata($newdata);
-
-            redirect("home");
-        }
-
-        $this->form_validation->set_rules("id_book", "id_book", "required");
-        $this->form_validation->set_rules("Title", "Title", "required");
-		$this->form_validation->set_rules("Year", "Year", "required|integer|min_length[4]|max_length[4]");
-		$this->form_validation->set_rules("Publisher", "Publisher", "required");
-		$this->form_validation->set_rules("Author", "Author", "required");
-
-		$config['upload_path'] = './assets/poster/';
-		$config['allowed_types'] = 'png|jpg';
-		$config['max_size'] = 4096;
-		$config['max_width'] = 2048;
-		$config['max_height'] = 2048;
-		$config['encrypt_name'] = true;
-		$this->load->library('upload', $config);
-
-		if ($this->form_validation->run() == false) {
-            $id_book = $this->input->post('id_book');
-
-            $data['book'] = $this->home_model->get_book($id_book);
-
-			$data['js'] = $this->load->view('include/javascript.php', NULL, TRUE);
-            $data['css'] = $this->load->view('include/css.php', NULL, TRUE);
-            $data['header'] = $this->load->view('pages/header.php', NULL, TRUE);
-            $this->load->view('pages/edit.php', $data);
-		}
-		else {
-			if (!$this->upload->do_upload('PosterLink')) {
-                $id_book = $this->input->post('id_book');
-
-                $data['book'] = $this->home_model->get_book($id_book);
-
-				$data['error'] = array('error' => $this->upload->display_errors());
-				
-				$data['js'] = $this->load->view('include/javascript.php', NULL, TRUE);
-                $data['css'] = $this->load->view('include/css.php', NULL, TRUE);
-                $data['header'] = $this->load->view('pages/header.php', NULL, TRUE);
-                $this->load->view('pages/edit.php', $data);
-			}
-			else {
-				$data = array('upload_data' => $this->upload->data());
-
-				$values = array(
-                    'id_book' => $this->input->post('id_book'),
-					'judul_book' => $this->input->post('Title'),
-					'tahun_terbit' => $this->input->post('Year'),
-					'penulis_book' => $this->input->post('Publisher'),
-                    'penerbit_book' => $this->input->post('Author'),
-					'link_poster' => 'assets/poster/'.$data['upload_data']['file_name']
-				);
-
-				$this->home_model->update_book($values);
-
-				redirect("home");
-			}
-		}
-    }
-
-    public function delete_book() {
-        if (!isset($_SESSION['logged_in']) || $_SESSION['logged_in'] == false) {
-            $newdata = array(
-                'alertNotif'  => 'Login is required to see the page.',
-                'logged_in' => false
-            );
-
-            $this->session->set_userdata($newdata);
-
-            redirect("home");
-        }
-
-        $id_book = $this->input->get('id_book');
-
-        $this->home_model->delete_book($id_book);
-
-        redirect("home");
-    }
-    */
 }
