@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Dec 03, 2021 at 08:41 AM
+-- Generation Time: Dec 03, 2021 at 08:51 AM
 -- Server version: 10.4.20-MariaDB
 -- PHP Version: 7.4.22
 
@@ -20,47 +20,6 @@ SET time_zone = "+00:00";
 --
 -- Database: `library`
 --
-
-DELIMITER $$
---
--- Functions
---
-CREATE DEFINER=`root`@`localhost` FUNCTION `day_taken` (`id` INT, `start_date` DATE, `end_date` DATE) RETURNS TINYINT(1) BEGIN
-    DECLARE finished INTEGER DEFAULT 0;
-    declare temp1 DATE;
-    declare temp2 date;
-    declare ans BOOLEAN;
-
-
-DEClARE curReq 
-CURSOR FOR 
-SELECT start_time, end_time FROM request WHERE status = 1 AND id_book = id;
-
-
-DECLARE CONTINUE HANDLER 
-        FOR NOT FOUND SET finished = 1;
-    
-    SET ans = false;
-
-    OPEN curReq;
-         check_day: LOOP
-            FETCH curReq INTO temp1, temp2;
-            IF finished = 1 THEN 
-                LEAVE check_day;
-            END IF;
-            if (start_date >= temp1 AND start_date <= temp2) OR (end_date >= temp1 AND end_date <= temp2) then
-              SET ans = true;
-              LEAVE check_day;
-            end if;
-            SET temp1 = '';
-            SET temp2 = '';
-    END LOOP check_day;
-    CLOSE curReq;
-
-    RETURN ans;
-END$$
-
-DELIMITER ;
 
 -- --------------------------------------------------------
 
