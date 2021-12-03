@@ -57,25 +57,25 @@
 			<div class="mb-3">
 				<label for="Title">Title</label>
 				<input type="text" class="form-control" id="Title" name="title" placeholder="Title" value="<?= set_value("title") ?>">
-				<div style="color:red"><?= form_error('Title'); ?></div>
+				<div style="color:red"><?= form_error('title'); ?></div>
 			</div>
 
 			<div class="mb-3">
 				<label for="Year" style="margin-top:10px">Year</label>
 				<input type="number" class="form-control" id="Year" name="year" placeholder="2021" value="<?= set_value("year") ?>">
-				<div style="color:red"><?= form_error('Year'); ?></div>
+				<div style="color:red"><?= form_error('year'); ?></div>
 			</div>
 
 			<div class="mb-3">
 				<label for="Publisher" style="margin-top:10px">Publisher</label>
 				<input type="text" class="form-control" id="Publisher" name="publisher" placeholder="Publisher" value="<?= set_value("publisher") ?>">
-				<div style="color:red"><?= form_error('Publisher'); ?></div>
+				<div style="color:red"><?= form_error('publisher'); ?></div>
 			</div>
 
 			<div class="mb-3">
 				<label for="Author" style="margin-top:10px">Author</label>
 				<input type="text" class="form-control" id="Author" name="author" placeholder="Author" value="<?= set_value("author") ?>">
-				<div style="color:red"><?= form_error('Author'); ?></div>
+				<div style="color:red"><?= form_error('author'); ?></div>
 			</div>
 
 			<div class="mb-3">

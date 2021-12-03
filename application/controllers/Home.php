@@ -220,7 +220,7 @@ class Home extends CI_Controller
         $id_user = strip_tags($this->input->get('id_user'));
         if (isset($_SESSION['logged_in']) && $_SESSION['role'] == 'Admin') {
             $this->home_model->delete_user($id_user);
-            redirect("home");
+            redirect("home/user_list");
         } else {
             $this->error404();
         }
