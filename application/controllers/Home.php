@@ -219,7 +219,12 @@ class Home extends CI_Controller
     {
         $id_user = strip_tags($this->input->get('id_user'));
         if (isset($_SESSION['logged_in']) && $_SESSION['role'] == 'Admin') {
+            $image = $this->home_model->get_pp_from_user($id_user);
+
+            unlink($image['link_profile']);  
+
             $this->home_model->delete_user($id_user);
+            
             redirect("home/user_list");
         } else {
             $this->error404();
@@ -289,6 +294,8 @@ class Home extends CI_Controller
                     'role' => strip_tags($this->input->post('role')),
                     'link_profile' => 'assets/pp/' . $data['upload_data']['file_name']
                 );
+                $image = $this->home_model->get_pp_from_user($values['id_user']);
+                unlink($image['link_profile']);   
 
                 $this->home_model->update_user($values);
 
@@ -468,6 +475,8 @@ class Home extends CI_Controller
     {
         if (isset($_SESSION['logged_in']) && ($_SESSION['role'] == 'Admin' || $_SESSION['role'] == 'Manager')) {
             $id_book = strip_tags($this->input->get('id_book'));
+            $image = $this->home_model->get_cover_from_book($id_book);
+            unlink($image['link_cover']);
             $this->home_model->delete_book($id_book);
             redirect("home/book_list");
         } else {
@@ -591,6 +600,9 @@ class Home extends CI_Controller
                         'description' => strip_tags($this->input->post('description')),
                         'link_cover' => 'assets/cover/' . $data['upload_data']['file_name']
                     );
+
+                    $image = $this->home_model->get_cover_from_book($values['id_book']);
+                    unlink($image['link_cover']);
 
                     $this->home_model->update_book($values);
 

@@ -34,6 +34,11 @@ class Home_model extends CI_Model {
         return $query->result_array();
     }
 
+    public function get_pp_from_user($id)
+    {
+        return $this->db->select('link_profile')->where('id_user', $id)->get('user')->row_array();
+    }
+
     // Book
     function get_list_book() {
         $query = $this->db->query("SELECT * FROM list_book");
@@ -68,6 +73,11 @@ class Home_model extends CI_Model {
         $this->db->where('id_book', $id_book);
         $this->db->delete('request');
         $query = $this->db->query("DELETE FROM list_book WHERE id_book = ?", $id_book);
+    }
+
+    public function get_cover_from_book($id)
+    {
+        return $this->db->select('link_cover')->where('id_book', $id)->get('list_book')->row_array();
     }
 
     // Request
