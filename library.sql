@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Dec 03, 2021 at 08:53 AM
+-- Generation Time: Dec 03, 2021 at 09:52 AM
 -- Server version: 10.4.20-MariaDB
 -- PHP Version: 7.4.22
 
@@ -141,7 +141,10 @@ CREATE TABLE `user` (
 INSERT INTO `user` (`id_user`, `email`, `password`, `name`, `role`, `link_profile`) VALUES
 (10, 'admin@mangabook.co.id', '230c10966dac70e649608a79aa4e0aad9c14eabf8e2f70841bb11a4d182dc9c47ad95e0568ee9dcbc3a59a4f682f03e65af6dc28deddd8cc7b6f21db83cf21d6', 'Adhitya Bagus Wicaksono', 'Admin', 'assets/pp/a9980146bff0b6ea5466e6449dbb6657.png'),
 (11, 'manager@mangabook.co.id', '426114f3fd4ce24eac84f5f246bae01a0112684c3b547b6247fa094a1efd7416703d07024f4bde0ea3f37c466c0d46b96ec6c51daa01c82740fad87c244a6184', 'Alfred Kuhlman', 'Manager', 'assets/pp/ad2a7a1a2efd80b5a3a4304afb46fe5d.jpg'),
-(12, 'user@mangabook.co.id', '0f8b1233b81fc50b2e02224fe0c7d33e21c170c1f7f91b4661e524abdda044899a099c27c4b9e817ace7e74da23c57256c80f06980b77b6b2f9a855ccdbd69d4', 'Loysing Ryono Ismanto', 'User', 'assets/pp/6410b3fe38dadf79d12db2c627dd59ad.gif');
+(12, 'user@mangabook.co.id', '0f8b1233b81fc50b2e02224fe0c7d33e21c170c1f7f91b4661e524abdda044899a099c27c4b9e817ace7e74da23c57256c80f06980b77b6b2f9a855ccdbd69d4', 'Loysing Ryono Ismanto', 'User', 'assets/pp/6410b3fe38dadf79d12db2c627dd59ad.gif'),
+(13, 'yogi@mangabook.co.id', '928b827e89ca2544a5df3f6ec910e9b8909e377eddae33a0ece32123198d7ab9e597a1adff0b5af5db89395a67bbe59169fb51153a4eab8264e9d95026bc9c2e', 'I Putu Ananta Yogiswara', 'User', 'assets/pp/77a382a38c2d8af488c4d97098ed2248.png'),
+(14, 'daniel@mangabook.co.id', '007c624f5cdf4325ea31fb6c8ced7891c089fca074642a060d1fba283c0cb2838687aa741efde530606f4e2cae37feb3b21cd9931746ccaa40fce1eac432a3ee', 'Daniel Wijaya', 'User', 'assets/pp/d1a11d9110fb98df81599a20d1980b79.png'),
+(15, 'chaterine@mangabook.co.id', '9c74a617479f8f241b41a9eb3029e45e1358c2476ce128a2ee10bd9694acca75dbf68c1993b28a2eed56091d0b94f1f4ad80eae6474f37f85770c30eef9d2f20', 'Chaterine', 'User', 'assets/pp/f59ed1a4cbe3e348ce7a60a7ab409a32.png');
 
 --
 -- Indexes for dumped tables
@@ -187,7 +190,7 @@ ALTER TABLE `request`
 -- AUTO_INCREMENT for table `user`
 --
 ALTER TABLE `user`
-  MODIFY `id_user` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
+  MODIFY `id_user` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=16;
 
 --
 -- Constraints for dumped tables
