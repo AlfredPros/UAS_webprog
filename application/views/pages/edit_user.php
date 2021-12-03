@@ -88,12 +88,13 @@
 			<p><label for="file-input" style="cursor: pointer;">Profile Picture</label></p>
 
 			<div class="image-upload">
-				<label for="file-input">
-					<img for="file" id="output" width="200" src="<?= base_url($user[0]['link_profile']) ?>" style="cursor: pointer;"/>
+				<label for="file-input" style="border: #C95555 solid 4px">
+					<img for="file" id="output" width="200" src="<?= base_url($user[0]['link_profile']) ?>" style="cursor: pointer;" />
 				</label>
 
 				<input id="file-input" accept="image/*" type="file" style="cursor: pointer;" onchange="loadFile(event)" name="link_profile" hidden />
 			</div>
+			<p style="padding-top: 6px;"><i>Click picture to change</i></p>
 
 			<?php if (isset($error)) { ?>
 				<div style="color:red"><?= $error['error']; ?></div>
@@ -114,4 +115,5 @@
 	<br>
 	<br>
 </body>
+
 </html>

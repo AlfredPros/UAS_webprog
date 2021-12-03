@@ -90,14 +90,16 @@
 			<p><label for="file-input" style="cursor: pointer;">Manga Cover</label></p>
 
 			<div class="image-upload">
-				<label for="file-input">
+				<label for="file-input" style="border: #C95555 solid 4px">
 					<img for="file" id="output" width="200" src="<?= base_url($book[0]['link_cover']) ?>" style="cursor: pointer;" />
 				</label>
 				<?php if (isset($error)) { ?>
-                        <div style="color:red"><?= $error['error']; ?></div>
-                    <?php } ?>
+					<div style="color:red"><?= $error['error']; ?></div>
+				<?php } ?>
 				<input id="file-input" accept="image/*" type="file" style="cursor: pointer;" onchange="loadFile(event)" name="link_cover" hidden />
 			</div>
+
+			<p style="padding-top: 6px;"><i>Click picture to change</i></p>
 
 			<script>
 				var loadFile = function(event) {
@@ -114,4 +116,5 @@
 	<br>
 	<br>
 </body>
+
 </html>
