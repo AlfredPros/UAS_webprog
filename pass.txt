@@ -1,24 +1,25 @@
-email: admin@admin.com
-pass: kuis2pemweb2017garam
+Website Link: http://mangabookkawaiidesu.infinityfreeapp.com/
 
-email: user@user.com
-pass: localhost
-
-email: ikan@goreng.com
-pass: user
-
-===========================================
-
-AKUN DATABASE LIBRARYBARU.SQL
-
+AKUN
+================================
 Admin
-admin@mangabook.co.id
-adminmangabookgantengsekali
+email	: admin@mangabook.co.id
+password: adminmangabookgantengsekali
 
 Manager
-manager@mangabook.co.id
-adminmangabookmanissekali
+email	: manager@mangabook.co.id
+password: adminmangabookmanissekali
 
 User
-user@mangabook.co.id
-adminmangabookimutsekali
+email	: user@mangabook.co.id
+password: adminmangabookimutsekali
+
+email	: yogi@mangabook.co.id
+password: pakyogibaiksekali
+
+email	: daniel@mangabook.co.id
+password: kakdanielbaiksekali
+
+email	: chaterine@mangabook.co.id
+password: cikchaterinebaiksekali
+
