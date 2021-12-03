@@ -110,16 +110,7 @@ class Home_model extends CI_Model {
     }
 
     public function insert_request($value) {
-        $id = $value['id_book'];
-        $start = $this->db->escape($value['start_time']);
-        $end = $this->db->escape($value['end_time']);
-        $day_taken = $this->db->query("SELECT day_taken($id, $start, $end) state")->row_array();
-        if ($day_taken['state']) {
-            return false;
-        } else {
-            $this->db->insert('request', $value);
-            return true;
-        }
+        $this->db->insert('request', $value);
     }
 
     public function approve_request($value) {
