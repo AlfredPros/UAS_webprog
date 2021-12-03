@@ -85,12 +85,11 @@
 				<div style="color:red"><?= form_error('role'); ?></div>
 			</div>
 
-			<p><input type="file" accept="image/*" name="link_profile" id="file" onchange="loadFile(event)" style="display: none;" value="<?= base_url($user[0]['link_profile']) ?>"></p>
-			<p><label for="file" style="cursor: pointer;">Profile Picture</label></p>
+			<p><label for="file-input" style="cursor: pointer;">Profile Picture</label></p>
 
 			<div class="image-upload">
 				<label for="file-input">
-					<img for="file" id="output" width="200" src="<?= base_url($user[0]['link_profile']) ?>" />
+					<img for="file" id="output" width="200" src="<?= base_url($user[0]['link_profile']) ?>" style="cursor: pointer;"/>
 				</label>
 
 				<input id="file-input" accept="image/*" type="file" style="cursor: pointer;" onchange="loadFile(event)" name="link_profile" hidden />

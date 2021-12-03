@@ -87,13 +87,11 @@
 				<textarea class="form-control" id="description" name="description" placeholder="Ya Yeet" rows="4"><?= $book[0]['description'] ?></textarea>
 				<div style="color:red"><?= form_error('description'); ?></div>
 			</div>
-
-			<p><input type="file" accept="image/*" name="link_cover" id="file" onchange="loadFile(event)" style="display: none;" value="<?= base_url($book[0]['link_cover']) ?>"></p>
-			<p><label for="file" style="cursor: pointer;">Manga Cover</label></p>
+			<p><label for="file-input" style="cursor: pointer;">Manga Cover</label></p>
 
 			<div class="image-upload">
 				<label for="file-input">
-					<img for="file" id="output" width="200" src="<?= base_url($book[0]['link_cover']) ?>" />
+					<img for="file" id="output" width="200" src="<?= base_url($book[0]['link_cover']) ?>" style="cursor: pointer;" />
 				</label>
 				<?php if (isset($error)) { ?>
                         <div style="color:red"><?= $error['error']; ?></div>
