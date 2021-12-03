@@ -320,8 +320,8 @@ class Home extends CI_Controller
     {
         if (isset($_SESSION['logged_in'])) {
             $book = strip_tags($this->input->get('id_book'));
-            $data['month'] = strip_tags($this->input->get('month'));
-            $data['year'] = strip_tags($this->input->get('year'));
+            $data['month'] = (int)strip_tags($this->input->get('month'));
+            $data['year'] = (int)strip_tags($this->input->get('year'));
             if (empty($data['month']) || $data['month'] > 12 || $data['month'] < 1) {
                 $data['month'] = date('m');
             }
