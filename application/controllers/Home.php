@@ -121,6 +121,12 @@ class Home extends CI_Controller
                 }
             }
         } else {  // Not success
+            $newdata = array(
+                'alert' => "Recaptcha failed. Please login again."
+            );
+
+            $this->session->set_userdata($newdata);
+
             redirect("home");
         }
     }
@@ -197,6 +203,12 @@ class Home extends CI_Controller
                 }
             }
         } else {  // Not success
+            $newdata = array(
+                'alert' => "Recaptcha failed. Please register again."
+            );
+
+            $this->session->set_userdata($newdata);
+
             redirect("home");
         }
     }
