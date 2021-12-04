@@ -127,7 +127,7 @@ class Home extends CI_Controller
 
             $this->session->set_userdata($newdata);
 
-            redirect("home");
+            redirect("home/login");
         }
     }
 
@@ -209,7 +209,7 @@ class Home extends CI_Controller
 
             $this->session->set_userdata($newdata);
 
-            redirect("home");
+            redirect("home/register");
         }
     }
 
