@@ -79,12 +79,13 @@
 </head>
 
 <body>
+    <br><br>
     <div class="container col-lg-3 center">
         <div class="box row text-center" style="color: #C90000; padding: 28px">
             <h2 style="font-weight: 900;">Login</h2>
             <img src="<?= base_url('assets/images/MangaBookLogoColor.png') ?>" alt="" draggable="false">
             <?php if (isset($_SESSION['alert'])) { ?>
-                <p style="color:red"><?= $_SESSION['alert'] ?></p>
+                <p style="color:red; padding-top:16px"><?= $_SESSION['alert'] ?></p>
             <?php unset($_SESSION['alert']);
             } ?>
             <form action="<?= base_url("index.php/home/do_login") ?>" method="POST" style="margin-top:26px">
@@ -116,5 +117,6 @@
             </div>
         </div>
     </div>
+    <br><br>
 </body>
 </html>

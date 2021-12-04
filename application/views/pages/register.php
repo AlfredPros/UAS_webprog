@@ -18,7 +18,6 @@
             grecaptcha.execute('6LePRGcdAAAAAMph8kCaVrkCIIv4P14m0Rmez5xp', {
                 action: 'add_name'
             }).then(function(token) {
-                // Add your logic to submit to your backend server here.
                 $('#formToken').val(token);
                 $('#formAction').val('add_name');
             });
@@ -80,11 +79,15 @@
 </head>
 
 <body>
-    <br><br><br>
+    <br><br><br><br>
     <div class="container col-lg-3 center">
         <div class="box row text-center" style="color: #C90000; padding: 28px">
             <h2 style="font-weight: 900;">Register</h2>
             <img src="<?= base_url('assets/images/MangaBookLogoColor.png') ?>" alt="" draggable="false">
+            <?php if (isset($_SESSION['alert'])) { ?>
+                <p style="color:red; padding-top:16px"><?= $_SESSION['alert'] ?></p>
+            <?php unset($_SESSION['alert']);
+            } ?>
             <form action="<?= base_url("index.php/home/do_register") ?>" method="POST" style="margin-top:26px" enctype="multipart/form-data">
                 <div class="row">
                     <label for="email">E-Mail Address</label>
@@ -128,6 +131,6 @@
             </div>
         </div>
     </div>
-    <br><br><br>
+    <br><br><br><br>
 </body>
 </html>
